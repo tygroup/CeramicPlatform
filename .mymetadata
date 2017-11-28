@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="CeramicPlatform"
+  id="myeclipse.1508729628127"
+  context-root="/CeramicPlatform"
+  j2ee-spec="6.0"
+  archive="CeramicPlatform.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+
