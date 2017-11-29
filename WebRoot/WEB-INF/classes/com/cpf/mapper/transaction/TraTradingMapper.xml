@@ -21,6 +21,9 @@
     <result column="isAudit" jdbcType="CHAR" property="isaudit" />
     <result column="auditDate" jdbcType="DATE" property="auditdate" />
       <result column="zcType" jdbcType="CHAR" property="zcType" />
+      <result column="is_hot" jdbcType="CHAR" property="isHot" />
+      <result column="is_deal" jdbcType="CHAR" property="isDeal" />
+      <result column="dealdate" jdbcType="DATE" property="dealdate" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--

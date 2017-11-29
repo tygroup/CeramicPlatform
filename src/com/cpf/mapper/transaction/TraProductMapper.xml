@@ -27,12 +27,14 @@
     <result column="isMultiple" jdbcType="DECIMAL" property="ismultiple" />
     <result column="modDate" jdbcType="DATE" property="moddate" />
     <result column="num" jdbcType="VARCHAR" property="num"/>
+    <result column="storename"  jdbcType="VARCHAR"  property="storename"/>
   </resultMap>
   <!--分页 查询首页易物搜索列表 -->
    <select id="selectBartersBySearch" resultMap="BaseResultMap">
-	   select t.productid productid,p.productname productname,p.productcode productcode,count(c.collectId) num from tra_trading t 
+	   select t.productid productid,p.productname productname,p.productcode productcode,u.storename storename,count(c.collectId) num from tra_trading t 
 		LEFT JOIN tra_product p on t.productid = p.productid
 		LEFT JOIN sys_collect c on t.productid = c.productId and c.collectType = '0'
+		LEFT JOIN userinfo u on p.userid = u.userid
 		where t.toused = '1' and t.isAudit = '0' and t.isshelf = '0'
 		<!-- 商品名称搜索 -->
 		 <if test="productName != null and productName!='' " >
@@ -52,7 +54,7 @@
 		 <if test="era != null and era!='' " >
      		 and p.era =#{era}
       	</if>
-		group by productId,productName,productCode 
+		group by productId,productName,productCode,storename
 		
 		 <if test="sort!=null and sort=='0'">
 		 <!-- 按照日期排序 -->
@@ -67,9 +69,10 @@
    </select>
      <select id="selectBartersBySearchCount" resultType="java.lang.Integer">
      select count(0) from (
-	   select t.productid productid,p.productname productname,p.productcode productcode,count(c.collectId) num from tra_trading t 
+	   select t.productid productid,p.productname productname,p.productcode productcode,u.storename storename,count(c.collectId) num from tra_trading t 
 		LEFT JOIN tra_product p on t.productid = p.productid
 		LEFT JOIN sys_collect c on t.productid = c.productId and c.collectType = '0'
+		LEFT JOIN userinfo u on p.userid = u.userid
 		where t.toused = '1' and t.isAudit = '0' and t.isshelf = '0'
 			<!-- 商品名称搜索 -->
 		 <if test="productName != null and productName!='' " >
@@ -89,7 +92,7 @@
 		 <if test="era != null and era!='' " >
      		 and p.era =#{era}
       	</if>
-		group by productId,productName,productCode  order by t.auditDate desc  ) tt
+		group by productId,productName,productCode,storename  order by t.auditDate desc  ) tt
    </select>
    
      <resultMap id="SpecialResultMap" type="com.cpf.beans.transaction.SpecialBean">
@@ -104,16 +107,16 @@
     <result column="endtime" jdbcType="VARCHAR" property="endtime" />
    
   </resultMap>
-   
+   <!-- 查询首页 拍品搜索sql -->
    <select id="selectSpecialBySearch"  resultMap="SpecialResultMap">
 	   select tt.*,
 			 if(tt.zcType='1',
-			(select o.Auctionbegintime from tra_officialspecial o where o.Officialid = tt.zcid ) ,
-			(select p.Auctionbegintime from tra_personalspecial p where tt.zcid = p.Specialid)
+			(select o.Previewbegintimetime from tra_officialspecial o where o.Officialid = tt.zcid ) ,
+			(select p.Previewbegintimetime from tra_personalspecial p where tt.zcid = p.Specialid)
 			) as begintime,
 			 if(tt.zcType='1',
-			(select o.Auctionendtime from tra_officialspecial o where o.Officialid = tt.zcid ) ,
-			(select p.Auctionendtime from tra_personalspecial p where tt.zcid = p.Specialid)
+			(select o.Previewendtime from tra_officialspecial o where o.Officialid = tt.zcid ) ,
+			(select p.Previewendtime from tra_personalspecial p where tt.zcid = p.Specialid)
 			) as endtime
 			 from (SELECT
 				t.productid productid,
@@ -164,7 +167,7 @@
 		  ) tt  limit #{beginIndex},#{endIndex};
    
    </select>
-   
+      <!-- 查询分页需要的总数量 -->
       <select id="selectSpecialBySearchCount"  resultType="java.lang.Integer">
 	   select count(0)
 			 from (SELECT
@@ -210,4 +213,49 @@
 		  )tt   
    
    </select>
+   
+   
+   	<!-- 查询热门的拍品 根据count拿数据 -->
+   	<select id="selectHotSpecialid" resultMap="SpecialResultMap">
+   	select tt.* ,
+			 if(tt.zcType='1',
+			(select o.Previewbegintimetime from tra_officialspecial o where o.Officialid = tt.zcid ) ,
+			(select p.Previewbegintimetime from tra_personalspecial p where tt.zcid = p.Specialid)
+			) as begintime,
+			 if(tt.zcType='1',
+			(select o.Previewendtime from tra_officialspecial o where o.Officialid = tt.zcid ) ,
+			(select p.Previewendtime from tra_personalspecial p where tt.zcid = p.Specialid)
+			) as endtime from (SELECT
+				t.productid productid,
+				p.productname productname,
+				t.Startingprice Startingprice,
+				t.zcType zcType,
+				t.zcid zcid,
+				COUNT(c.collectId) num,
+				COUNT(b.recordid) pricetime
+			FROM
+				tra_trading t
+			LEFT JOIN tra_product p ON t.productid = p.productid
+			LEFT JOIN sys_collect c on t.productid = c.productId
+			LEFT JOIN tra_Bidrecord b on t.productid = b.productid
+
+	where t.is_hot = '0' and t.toused = '0' and t.isshelf ='0' and t.isAudit='0' and t.is_deal='1'
+	) tt LIMIT #{count}
+   	
+   	</select>
+   	<!-- 查询热门易物 -->
+   	<select id="selectHotBarters"  resultMap="BaseResultMap">
+   	 SELECT
+				t.productid productid,
+				p.productname productname,
+				u.storename storename
+			FROM
+				tra_trading t
+			LEFT JOIN tra_product p ON t.productid = p.productid
+			LEFT JOIN userinfo u on p.userid = u.userid
+
+	where t.is_hot = '0' and t.toused = '1' and t.isshelf ='0' and t.isAudit='0' and t.is_deal='1'
+ 	LIMIT #{count}
+   	</select>
+   
 </mapper>

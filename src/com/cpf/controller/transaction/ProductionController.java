@@ -66,7 +66,7 @@ public class ProductionController {
     
     
     /**
-     * 擦和讯拍卖品种列表 分页
+     * 拍卖品种列表 分页
      * @param productName
      * @param cateid
      * @param ismyself

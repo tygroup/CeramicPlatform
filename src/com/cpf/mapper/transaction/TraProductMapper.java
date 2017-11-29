@@ -21,4 +21,7 @@ public interface TraProductMapper {
     
     int selectSpecialBySearchCount(@Param("productName") String productName,
 			@Param("cateid") String cateid,@Param("ismyself") String ismyself,@Param("era") String era);
+    
+    List<SpecialBean> selectHotSpecialid(@Param("count") int count);
+    List<TraProduct> selectHotBarters(@Param("count") int count);
 }
