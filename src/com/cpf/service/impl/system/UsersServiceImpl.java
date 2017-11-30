@@ -15,8 +15,13 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public Users regester(String account, String password) {
-		return usermap.regester(account, password);
+	public Users regester(Users u) {
+		return usermap.regester(u);
+		}
+
+	@Override
+	public Users getUsersMsg(String userid) {
+		return usermap.findUserMsg(userid);
 	}
 
 }
