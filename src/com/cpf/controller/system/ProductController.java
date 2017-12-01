@@ -32,18 +32,24 @@ public class ProductController {
 	
 	
 	/**
-	 * 添加商品
+	 * 添加/编辑 商品 
 	 * @return
 	 */
-    @RequestMapping(value = "/insertProduct", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/manageProducts", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public JsonFormat insertProduct(@RequestParam(value="msg", required=false) String msg){
+    public JsonFormat manageProducts(@RequestParam(value="msg", required=false) String msg){
     	
     	JSONObject jsonObject=JSONObject.fromObject(msg);
     	
     	TraProduct product = (TraProduct) jsonObject.toBean(jsonObject,TraProduct.class);
     	
-    	product= service.insert(product);
+    	if(product!=null && product.getProductid()!=null){
+    		
+    		product= service.insert(product);
+    	}else{
+    		product= service.update(product);
+    	}
+    	
         return product!=null?new JsonFormat("000000","查询成功",product):new JsonFormat("000001","无数据",product);
     }
     /**
@@ -64,7 +70,6 @@ public class ProductController {
 			 return new JsonFormat("000002","参数错误",null);
 		 }
     }
- 
     
     /**
 	 * 根据id查询 商品 
@@ -100,5 +105,4 @@ public class ProductController {
        }
        
     
- 
 }
