@@ -30,6 +30,7 @@ public class Userinfo {
     private String creditlevel;
     private String isBest;
     private List<TraProduct> productions;
+
     
     public String getUserid() {
         return userid;

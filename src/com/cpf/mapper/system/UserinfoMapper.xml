@@ -38,7 +38,7 @@
     cityid, address, graduatedschool, email, webaddr, position, exhibition, Awards, publishing, 
     cypublished, Verified, Agencycertification, creditlevel
   </sql>
-  
+ 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
    
     select *   from userinfo  where userid = #{userid,jdbcType=VARCHAR}
@@ -307,4 +307,5 @@
    	<select id="findShopInfoById" resultMap="FirstResultMap">
    	select * from userinfo u left JOIN tra_product p on u.userid = p.userid LEFT JOIN tra_trading t on p.productid = t.productid and t.isAudit = '0' LEFT JOIN tra_product_files f on p.productid = f.productid where u.userid = #{userId}
    	</select>
+ 
 </mapper>
