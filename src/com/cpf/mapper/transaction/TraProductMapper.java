@@ -1,13 +1,15 @@
 package com.cpf.mapper.transaction;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.cpf.beans.transaction.SpecialBean;
 import com.cpf.beans.transaction.TraProduct;
+import com.cpf.mapper.BaseMapper;
 
-public interface TraProductMapper {
+public interface TraProductMapper extends BaseMapper<TraProduct, String>{
 
 	List<TraProduct> selectBartersBySearch(@Param("productName") String productName,
 			@Param("cateid") String cateid,@Param("ismyself") String ismyself,@Param("era") String era,@Param("sort") String sort
@@ -25,18 +27,15 @@ public interface TraProductMapper {
     List<SpecialBean> selectHotSpecialid(@Param("count") int count);
     List<TraProduct> selectHotBarters(@Param("count") int count);
     
-    TraProduct insert(TraProduct pro);
-   
-    TraProduct update(TraProduct pro);
    
     TraProduct findByPrimarykey(String productid);
     
     List<TraProduct> findByUserid(@Param("userid")String userid,@Param("beginIndex") int beginIndex,@Param("endIndex") int endIndex);
     
-    boolean delete(String productid);
-    
     int  findByUseridCount(@Param("userid")String userid);
     
+    boolean delete(String productid);
     
+    List<TraProduct>  selectProductsByUserId(@Param("map")Map<String, Object> params);
     
 }
