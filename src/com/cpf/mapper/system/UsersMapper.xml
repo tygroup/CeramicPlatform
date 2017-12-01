@@ -6,7 +6,7 @@
   <select id="login" resultType="Users"  parameterType="java.lang.String" >
     select *    from users   where phonenum = #{phonenum,jdbcType=VARCHAR} and password=#{password,jdbcType=VARCHAR}
 
-     
+     </select>
 
     <resultMap id="BaseResultMap" type="com.cpf.beans.system.Userinfo" >
     <!--
@@ -27,7 +27,7 @@
   <select id="findUserMsg" resultType="Users" parameterType="java.lang.String" >
     select *    from users u left join Useramount a on u.userid=a.userid  where a.userid = #{userid,jdbcType=VARCHAR} 
 
-
+</select>
 
   <select id="findUserMsg" resultMap="Users" parameterType="java.lang.String" >
 
