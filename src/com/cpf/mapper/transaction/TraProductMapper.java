@@ -24,4 +24,19 @@ public interface TraProductMapper {
     
     List<SpecialBean> selectHotSpecialid(@Param("count") int count);
     List<TraProduct> selectHotBarters(@Param("count") int count);
+    
+    TraProduct insert(TraProduct pro);
+   
+    TraProduct update(TraProduct pro);
+   
+    TraProduct findByPrimarykey(String productid);
+    
+    List<TraProduct> findByUserid(@Param("userid")String userid,@Param("beginIndex") int beginIndex,@Param("endIndex") int endIndex);
+    
+    boolean delete(String productid);
+    
+    int  findByUseridCount(@Param("userid")String userid);
+    
+    
+    
 }
