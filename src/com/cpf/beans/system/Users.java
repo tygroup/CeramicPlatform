@@ -2,6 +2,7 @@ package com.cpf.beans.system;
 
 import java.util.Date;
 
+import org.apache.ibatis.type.Alias;
 public class Users {
    
     private String userid;
