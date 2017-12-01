@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cpf.beans.transaction.TraProduct;
+import com.cpf.beans.transaction.TraTrading;
 import com.cpf.service.system.ProductService;
+import com.cpf.service.transaction.TraTradingService;
 import com.cpf.util.JsonFormat;
 import com.cpf.util.Validators;
 /**
@@ -30,7 +32,8 @@ public class ProductController {
 	@Autowired
 	private ProductService service;
 	
-	
+	@Autowired
+	private TraTradingService tradservice;
 	/**
 	 * 添加/编辑 商品 
 	 * @return
@@ -104,5 +107,24 @@ public class ProductController {
     	   return list!=null?new JsonFormat("000000","查询成功",list):new JsonFormat("000001","无数据",list);
        }
        
-    
+    /**
+   	 * 我的 将 商品 送到 易物/拍卖
+   	 * 传递json对象直接解析
+   	 * toUsed 0拍卖1易物
+   	 * @return
+   	 */
+    @RequestMapping(value = "/sendPrductsToDo", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public JsonFormat sendPrductsToDo(@RequestParam(value="msg", required=false) String msg){
+       /*	Map<String ,Object> map = new HashMap<String, Object>();
+    	  map.put("toUsed", toUsed);
+    	  map.put("userId", userId);
+    	  */
+    	JSONObject jsonObject=JSONObject.fromObject(msg);
+    	TraTrading trad = (TraTrading) jsonObject.toBean(jsonObject,TraProduct.class);
+    		trad = tradservice.save(trad);
+    	   
+    	   return trad!=null?new JsonFormat("000000","写入成功",trad):new JsonFormat("000001","无数据",trad);
+       }
+       
 }
