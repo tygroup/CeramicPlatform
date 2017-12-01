@@ -43,9 +43,11 @@
    
     select *   from userinfo  where userid = #{userid,jdbcType=VARCHAR}
   </select>
-  <insert id="insert" parameterType="com.cpf.beans.system.Userinfo" >
-   
+  <insert id="save" parameterType="com.cpf.beans.system.Userinfo" >
     insert into userinfo
+   	<selectKey resultType="java.lang.String"  order="BEFORE" keyProperty="userinfoid">  
+	 	 	  SELECT REPLACE(UUID(), '-', '')   
+	    </selectKey> 
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="userinfoid != null" >
         userinfoid,
@@ -178,7 +180,6 @@
     </trim>
   </insert>
   <update id="update" parameterType="com.cpf.beans.system.Userinfo" >
-   
     update userinfo
     <set >
       <if test="userinfoid != null" >
