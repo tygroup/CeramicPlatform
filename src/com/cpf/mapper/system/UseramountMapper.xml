@@ -4,6 +4,9 @@
    
   <insert id="insert" parameterType="com.cpf.beans.system.Useramount" >
     insert into useramount
+      	<selectKey resultType="java.lang.String"  order="BEFORE" keyProperty="amountid">  
+	 	 	  SELECT REPLACE(UUID(), '-', '')   
+	    </selectKey> 
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="amountid != null" >
         amountid,
