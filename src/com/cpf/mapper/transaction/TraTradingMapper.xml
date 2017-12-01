@@ -63,4 +63,132 @@
   		select * from tra_trading t LEFT JOIN tra_product p on t.productid = p.productid LEFT JOIN tra_product_files f on t.productid = f.productid where t.productid =#{productId} and t.isAudit = '0' 
    </select>
    
+   
+   <insert id="save" parameterType="TraTrading" >
+    insert into tra_trading
+   	<selectKey resultType="java.lang.String"  order="BEFORE" keyProperty="tradingid">  
+	 	 	  SELECT REPLACE(UUID(), '-', '')   
+	    </selectKey> 
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tradingid != null" >
+        tradingid,
+      </if>
+      <if test="productid != null" >
+        productid,
+      </if>
+      <if test="toused != null" >
+        toused,
+      </if>
+      <if test="isshelf != null" >
+        isshelf,
+      </if>
+      <if test="Startingprice != null" >
+        Startingprice,
+      </if>
+      <if test="Reserveprice != null" >
+        Reserveprice,
+      </if>
+      <if test="isNoreserveprice != null" >
+        isNoreserveprice,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="zcid != null" >
+        zcid,
+      </if>
+      <if test="Barterneeds != null" >
+        Barterneeds,
+      </if>
+      <if test="fare != null" >
+        fare,
+      </if>
+      <if test="onInsurance != null" >
+        onInsurance,
+      </if>
+      <if test="onReturns != null" >
+        onReturns,
+      </if>
+      <if test="isAudit != null" >
+        isAudit,
+      </if>
+      <if test="auditDate != null" >
+        auditDate,
+      </if>
+      <if test="zcType != null" >
+        zcType,
+      </if>
+      <if test="is_hot != null" >
+        is_hot,
+      </if>
+      <if test="is_deal != null" >
+        is_deal,
+      </if>
+      <if test="dealdate != null" >
+        dealdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userinfoid != null" >
+        #{userinfoid,jdbcType=VARCHAR},
+      </if>
+      <if test="tradingid != null" >
+        #{tradingid,jdbcType=VARCHAR},
+      </if>
+      <if test="productid != null" >
+      #{productid,jdbcType=VARCHAR},
+      </if>
+      <if test="toused != null" >
+        #{toused,jdbcType=VARCHAR},
+      </if>
+      <if test="isshelf != null" >
+       #{isshelf,jdbcType=VARCHAR},
+      </if>
+      <if test="Startingprice != null" >
+        #{Startingprice,jdbcType=VARCHAR},
+      </if>
+      <if test="Reserveprice != null" >
+        #{Reserveprice,jdbcType=VARCHAR},
+      </if>
+      <if test="isNoreserveprice != null" >
+        #{isNoreserveprice,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="zcid != null" >
+          #{zcid,jdbcType=VARCHAR},
+      </if>
+      <if test="Barterneeds != null" >
+         #{Barterneeds,jdbcType=VARCHAR},
+      </if>
+      <if test="fare != null" >
+         #{fare,jdbcType=VARCHAR},
+      </if>
+      <if test="onInsurance != null" >
+       #{onInsurance,jdbcType=VARCHAR},
+      </if>
+      <if test="onReturns != null" >
+        #{onReturns,jdbcType=VARCHAR},
+      </if>
+      <if test="isAudit != null" >
+        #{isAudit,jdbcType=VARCHAR},
+      </if>
+      <if test="auditDate != null" >
+         #{auditDate,jdbcType=VARCHAR},
+      </if>
+      <if test="zcType != null" >
+         #{zcType,jdbcType=VARCHAR},
+      </if>
+      <if test="is_hot != null" >
+       #{is_hot,jdbcType=VARCHAR},
+      </if>
+      <if test="is_deal != null" >
+         #{is_deal,jdbcType=VARCHAR},
+      </if>
+      <if test="dealdate != null" >
+       #{dealdate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
 </mapper>
