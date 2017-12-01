@@ -1,6 +1,8 @@
 package com.cpf.controller.system;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.json.JSONObject;
 
@@ -12,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cpf.beans.system.Users;
-import com.cpf.beans.transaction.TraPersonalspecial;
 import com.cpf.beans.transaction.TraProduct;
 import com.cpf.service.system.ProductService;
 import com.cpf.util.JsonFormat;
@@ -24,7 +24,7 @@ import com.cpf.util.Validators;
  * @date 2017-11-30
  */
 @RestController
-@RequestMapping("users")
+@RequestMapping("products")
 @Scope("prototype")
 public class ProductController {
 	@Autowired
@@ -64,4 +64,41 @@ public class ProductController {
 			 return new JsonFormat("000002","参数错误",null);
 		 }
     }
+ 
+    
+    /**
+	 * 根据id查询 商品 
+	 * @return
+	 */
+    @RequestMapping(value = "/findProductsById", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public JsonFormat findProductsById(@RequestParam(value="productId", required=false) String productId){
+    	TraProduct	product=null;
+    	
+    	if(productId!=null && !productId.equals("")){
+    		
+    		 	product= service.getByPrimarykey(productId);
+    	}
+        return product!=null?new JsonFormat("000000","查询成功",product):new JsonFormat("000001","无数据",product);
+    }
+    
+    /**
+   	 * 根据Userid查询易物/拍卖商品 
+   	 * toUsed 0拍卖1易物
+   	 * @return
+   	 */
+    @RequestMapping(value = "/findProductsListById", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public JsonFormat findByUserId(@RequestParam(value="toUsed", required=false) String toUsed,@RequestParam(value="userId", required=false) String userId){
+       	Map<String ,Object> map = new HashMap<String, Object>();
+    	  map.put("toUsed", toUsed);
+    	  map.put("userId", userId);
+    	  
+       List<TraProduct> list = 	service.selectProductsByUserId(map);
+    	   
+    	   return list!=null?new JsonFormat("000000","查询成功",list):new JsonFormat("000001","无数据",list);
+       }
+       
+    
+ 
 }
