@@ -18,4 +18,7 @@ public interface ProductionService {
     
     public int selectSpecialBySearchCount(String productName,
 			String cateid,String ismyself,String era);
+    
+    List<SpecialBean> selectHotSpecialid( int count);
+    List<TraProduct> selectHotBarters(int count);
 }

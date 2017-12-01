@@ -22,18 +22,18 @@
         </javaTypeResolver>
 
         
-        <javaModelGenerator targetPackage="com.cpf.beans.transaction" targetProject="CeramicPlatform/src">
+        <javaModelGenerator targetPackage="com.cpf.beans.system" targetProject="CeramicPlatform/src">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
          
-        <sqlMapGenerator targetPackage="com.cpf.mapper.transaction" targetProject="CeramicPlatform/src">
+        <sqlMapGenerator targetPackage="com.cpf.mapper.system" targetProject="CeramicPlatform/src">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
         
-        <javaClientGenerator targetPackage="com.cpf.mapper.transaction" targetProject="CeramicPlatform/src" type="XMLMAPPER">
+        <javaClientGenerator targetPackage="com.cpf.mapper.system" targetProject="CeramicPlatform/src" type="XMLMAPPER">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
@@ -69,8 +69,7 @@
         <table tableName="tra_trading" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
         <table tableName="tra_transactionrecord" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
     -->
-         <table tableName="tra_trading" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
-         <table tableName="tra_product" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+         <table tableName="sys_news" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
         
     </context>
 </generatorConfiguration>

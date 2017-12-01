@@ -59,7 +59,7 @@ public class OfficialspecialController {
 				 @RequestParam(value="pageSize", required=true) String pageSize){
 			 if(Validators.isNumeric(cpage)&&Validators.isNumeric(pageSize)){
 				  int beginIndex = (Integer.parseInt(cpage)-1)*Integer.parseInt(pageSize);
-		          int endIndex = Integer.parseInt(cpage)*Integer.parseInt(pageSize);
+		          int endIndex = Integer.parseInt(pageSize);
 				  List<TraOfficialspecial> OfficialSpecials = officialspecialService.findOfficialSpecialList(specialName,status, beginIndex, endIndex);
 				  int totalCount = officialspecialService.findOfficialSpecialListCount(specialName, status);
 			      return OfficialSpecials!=null&&OfficialSpecials.size()>0?new JsonFormat("000000","查询成功",totalCount,OfficialSpecials):new JsonFormat("000001","无数据",0,null);

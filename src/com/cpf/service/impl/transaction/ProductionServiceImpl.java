@@ -42,6 +42,18 @@ public class ProductionServiceImpl implements ProductionService {
 			String ismyself, String era) {
 		// TODO Auto-generated method stub
 		return productMapper.selectSpecialBySearchCount(productName, cateid, ismyself, era);
+	}
+
+	@Override
+	public List<SpecialBean> selectHotSpecialid(int count) {
+		// TODO Auto-generated method stub
+		return productMapper.selectHotSpecialid(count);
+	}
+
+	@Override
+	public List<TraProduct> selectHotBarters(int count) {
+		// TODO Auto-generated method stub
+		return productMapper.selectHotBarters(count);
 	} 
 	
 	

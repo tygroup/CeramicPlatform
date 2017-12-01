@@ -1,5 +1,7 @@
 package com.cpf.beans.transaction;
 
+import java.util.List;
+
 public class SpecialBean {
 	private String productid;
 	private String productname;
@@ -10,6 +12,7 @@ public class SpecialBean {
 	private String pricetime;
 	private String begintime;
 	private String endtime;
+	private List<TraProductFiles> pics;
 	public String getProductid() {
 		return productid;
 	}
@@ -63,6 +66,12 @@ public class SpecialBean {
 	}
 	public void setEndtime(String endtime) {
 		this.endtime = endtime;
+	}
+	public List<TraProductFiles> getPics() {
+		return pics;
+	}
+	public void setPics(List<TraProductFiles> pics) {
+		this.pics = pics;
 	}
 	
 	
