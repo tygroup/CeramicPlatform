@@ -1,6 +1,7 @@
 package com.cpf.service.system;
 
 import java.util.List;
+import java.util.Map;
 
 import com.cpf.beans.transaction.TraProduct;
 
@@ -17,4 +18,5 @@ public interface ProductService {
 	
 	public TraProduct  getByPrimarykey(String productid);
 	
+	List<TraProduct> selectProductsByUserId( Map<String, Object> params);
 }
