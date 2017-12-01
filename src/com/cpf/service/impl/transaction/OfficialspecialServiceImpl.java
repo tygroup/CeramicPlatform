@@ -33,6 +33,12 @@ public class OfficialspecialServiceImpl implements OfficialspecialService {
 		// TODO Auto-generated method stub
 		return officialspecialMapper.findOfficialSpecialListCount(specialName, status);
 	}
+
+	@Override
+	public List<TraOfficialspecial> findOfficialSpecialidById(String zcId) {
+		// TODO Auto-generated method stub
+		return officialspecialMapper.findOfficialSpecialidById(zcId);
+	}
 	
 	
 }

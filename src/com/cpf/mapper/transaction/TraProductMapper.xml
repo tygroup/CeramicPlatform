@@ -154,18 +154,12 @@
   </resultMap>
    <!-- 查询首页 拍品搜索sql -->
    <select id="selectSpecialBySearch"  resultMap="SpecialResultMap">
-	    select * from ( select tt.*,
-			 if(tt.zcType='1',
-			(select o.Previewbegintimetime from tra_officialspecial o where o.Officialid = tt.zcid ) ,
-			(select p.Previewbegintimetime from tra_personalspecial p where tt.zcid = p.Specialid)
-			) as begintime,
-			 if(tt.zcType='1',
-			(select o.Previewendtime from tra_officialspecial o where o.Officialid = tt.zcid ) ,
-			(select p.Previewendtime from tra_personalspecial p where tt.zcid = p.Specialid)
-			) as endtime
+	    select * from ( select *
 			 from (SELECT
 				t.productid productid,
 				p.productname productname,
+				t.begintime begintime,
+				t.endtime endtime,
 				t.Startingprice Startingprice,
 				t.zcType zcType,
 				t.zcid zcid,

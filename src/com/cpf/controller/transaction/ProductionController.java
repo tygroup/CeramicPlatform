@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cpf.beans.transaction.SpecialBean;
+import com.cpf.beans.transaction.TraBidrecord;
 import com.cpf.beans.transaction.TraProduct;
+import com.cpf.beans.transaction.TraTrading;
 import com.cpf.service.transaction.ProductionService;
 import com.cpf.util.JsonFormat;
 import com.cpf.util.Validators;
@@ -133,12 +135,41 @@ public class ProductionController {
     }
     
     
+ 
     /**
-     * 查询易物详情信息
+     * 查询商品详情根据id
+     * @param productId
+     * @return
+     */
+    @RequestMapping(value = "/productionInfo", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public JsonFormat selectProductionInfoById(@RequestParam(value="productId", required=true) String productId){
+    	List<TraTrading> productInfo =productionService.findProductionById(productId);
+    	return productInfo!=null&&productInfo.size()>0?new JsonFormat("000000", "查询成功", productInfo):new JsonFormat("000001", "无数据", null);
+    	 
+    }
+    
+    /**
+     * 查询拍品的出价记录  根据productId
+     * @param productId
      * @author jll
-     * @date 2017-11-30
+     * @date 2017-12-01
      */
     
-    
+    @RequestMapping(value = "/bidrecords", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public JsonFormat selectBidrecords(@RequestParam(value="productId", required=true) String productId,
+    		@RequestParam(value="cpage", required=true) String cpage,
+    		@RequestParam(value="pageSize", required=true) String pageSize){
+        	if(Validators.isNumeric(cpage)&&Validators.isNumeric(pageSize)){
+                int beginIndex = (Integer.parseInt(cpage)-1)*Integer.parseInt(pageSize);
+                int size = Integer.parseInt(pageSize);
+    	List<TraBidrecord> bidrecords =productionService.selectBidRecordByProductId(productId, beginIndex, size);
+    	int totalCount = productionService.selectBidRecordByProductIdCount(productId);
+    	return bidrecords!=null&&bidrecords.size()>0?new JsonFormat("000000", "查询成功",totalCount, bidrecords):new JsonFormat("000001", "无数据",0, null);
+        }else{
+        	return new JsonFormat("000002", "参数错误", null);
+        }
+    }
     
 }

@@ -9,4 +9,5 @@ import com.cpf.beans.system.Userinfo;
 public interface UserinfoMapper {
     
 	List<Userinfo> findBestShopList(@Param("count") int count);
+	List<Userinfo> findShopInfoById(@Param("userId") String userId);
 }

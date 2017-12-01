@@ -19,5 +19,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 		// TODO Auto-generated method stub
 		return userInfoMapper.findBestShopList(count);
 	}
+
+	@Override
+	public List<Userinfo> findShopInfoById(String userId) {
+		// TODO Auto-generated method stub
+		return userInfoMapper.findShopInfoById(userId);
+	}
 	
 }

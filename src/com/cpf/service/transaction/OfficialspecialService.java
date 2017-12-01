@@ -10,4 +10,5 @@ public interface OfficialspecialService {
 	public List<TraOfficialspecial> findBestSpecialList(int count);
 	public List<TraOfficialspecial> findOfficialSpecialList(String specialName,String status,int beginIndex,int endIndex);
 	public int findOfficialSpecialListCount(String specialName,String status);
+	public List<TraOfficialspecial> findOfficialSpecialidById(String zcId);
 }

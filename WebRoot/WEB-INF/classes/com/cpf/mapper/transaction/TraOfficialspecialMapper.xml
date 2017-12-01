@@ -90,4 +90,60 @@
 		group by Officialid,Auctionbegintime,Auctionendtime,Specialname
 		order by o.Previewbegintimetime desc  ) ttt
   	</select>
+  	
+  	<resultMap id="firstResultMap" type="com.cpf.beans.transaction.TraOfficialspecial" >
+    <!--
+     			为了给查询专场详情试用的返回
+    -->
+    <id column="Officialid" property="officialid" jdbcType="VARCHAR" />
+    <result column="Specialname" property="specialname" jdbcType="VARCHAR" />
+    <result column="Specialcover" property="specialcover" jdbcType="VARCHAR" />
+    <result column="Previewbegintimetime" property="previewbegintimetime" jdbcType="DATE" />
+    <result column="Previewendtime" property="previewendtime" jdbcType="DATE" />
+    <result column="Auctionbegintime" property="auctionbegintime" jdbcType="DATE" />
+    <result column="Auctionendtime" property="auctionendtime" jdbcType="DATE" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="is_best" property="isBest" jdbcType="VARCHAR" />
+    
+    <collection property="productions" ofType="com.cpf.beans.transaction.TraProduct">
+	  <id column="productid" jdbcType="VARCHAR" property="productid" />
+    <result column="productcode" jdbcType="VARCHAR" property="productcode" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="productname" jdbcType="VARCHAR" property="productname" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="cateid" jdbcType="VARCHAR" property="cateid" />
+    <result column="isfinished" jdbcType="VARCHAR" property="isfinished" />
+    <result column="defect" jdbcType="VARCHAR" property="defect" />
+    <result column="isOriginal" jdbcType="VARCHAR" property="isoriginal" />
+    <result column="ismyself" jdbcType="VARCHAR" property="ismyself" />
+    <result column="longl" jdbcType="VARCHAR" property="longl" />
+    <result column="width" jdbcType="VARCHAR" property="width" />
+    <result column="Material" jdbcType="VARCHAR" property="material" />
+    <result column="Framed" jdbcType="VARCHAR" property="framed" />
+    <result column="shape" jdbcType="VARCHAR" property="shape" />
+    <result column="era" jdbcType="VARCHAR" property="era" />
+    <result column="cretime" jdbcType="DATE" property="cretime" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="isMultiple" jdbcType="DECIMAL" property="ismultiple" />
+    <result column="modDate" jdbcType="DATE" property="moddate" />
+    <result column="num" jdbcType="VARCHAR" property="num"/>
+    <result column="startingprice"  jdbcType="VARCHAR"  property="startingprice"/>
+    
+    <collection property="pics" ofType="com.cpf.beans.transaction.TraProductFiles">
+	     <id column="filesid" property="filesid" jdbcType="VARCHAR" />
+	    <result column="productid" property="productid" jdbcType="VARCHAR" />
+	    <result column="files" property="files" jdbcType="VARCHAR" />
+    </collection>
+    </collection>
+  </resultMap>
+  	
+  	
+  	<!-- 查询官方专场详情 根据id -->
+  	<select id="findOfficialSpecialidById" resultMap="firstResultMap">
+  		select o.*,p.*,f.*,t.Startingprice startingprice from tra_officialspecial o LEFT JOIN tra_trading t on o.Officialid = t.zcid LEFT JOIN tra_product p on t.productid = p.productid
+		LEFT JOIN tra_product_files f on p.productid = f.productid
+		where o.Officialid = #{zcId}
+  	
+  	</select>
 </mapper>

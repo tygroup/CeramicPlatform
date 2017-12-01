@@ -71,4 +71,19 @@ public class PersonalSpecialidController {
 			 }
 		      
 		   }
+		 
+		 
+		 /**
+		  * 根据zcid查询官方专场的详细信息
+		  * @param zcId
+		  * @return
+		  */
+		 @RequestMapping(value = "/personnalInfo", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+		 @ResponseBody
+		 public JsonFormat selectPersonnalInfo(@RequestParam(value="zcId", required=true) String zcId){
+			List<TraPersonalspecial> personalSpecials = persionalSpecialidService.selectPersonalById(zcId);
+		    return personalSpecials!=null&&personalSpecials.size()>0?new JsonFormat("000000","查询成功",personalSpecials):new JsonFormat("000001","无数据",null);
+			 
+		      
+		   }
 }

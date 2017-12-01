@@ -1,6 +1,9 @@
 package com.cpf.beans.system;
 
 import java.util.Date;
+import java.util.List;
+
+import com.cpf.beans.transaction.TraProduct;
 
 public class Userinfo {
     
@@ -26,7 +29,7 @@ public class Userinfo {
     private String agencycertification;
     private String creditlevel;
     private String isBest;
-
+    private List<TraProduct> productions;
     
     public String getUserid() {
         return userid;
@@ -217,6 +220,14 @@ public class Userinfo {
 
 	public void setIsBest(String isBest) {
 		this.isBest = isBest;
+	}
+
+	public List<TraProduct> getProductions() {
+		return productions;
+	}
+
+	public void setProductions(List<TraProduct> productions) {
+		this.productions = productions;
 	}
     
     

@@ -68,4 +68,18 @@ public class OfficialspecialController {
 			 }
 		      
 		   }
+		 /**
+		  * 根据zcid查询官方专场的详细信息
+		  * @param zcId
+		  * @return
+		  */
+		 @RequestMapping(value = "/officialInfo", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+		 @ResponseBody
+		 public JsonFormat selectOfficialInfo(@RequestParam(value="zcId", required=true) String zcId){
+			List<TraOfficialspecial> OfficialSpecials = officialspecialService.findOfficialSpecialidById(zcId);
+		    return OfficialSpecials!=null&&OfficialSpecials.size()>0?new JsonFormat("000000","查询成功",OfficialSpecials):new JsonFormat("000001","无数据",null);
+			 
+		      
+		   }
+		 
 }

@@ -33,5 +33,11 @@ public class PersonalSpecialidServiceImpl implements PersonalSpecialidService {
 		// TODO Auto-generated method stub
 		return personalspecialMapper.findPersonalSpecialListCount(specialName, status);
 	}
+
+	@Override
+	public List<TraPersonalspecial> selectPersonalById(String zcId) {
+		// TODO Auto-generated method stub
+		return personalspecialMapper.selectPersonalById(zcId);
+	}
 	
 }

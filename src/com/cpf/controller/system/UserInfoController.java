@@ -48,4 +48,19 @@ public class UserInfoController {
 		 }
 	      
 	   }
+	 
+	 /**
+	  * 根据userId 查询店铺详情，这个应该是给商品的详情里面的接口使用
+	  * @param userId
+	  * @author jll
+	  * @date 2017-12-01
+	  */
+	 @RequestMapping(value = "/getShopInfo", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+	 @ResponseBody
+	 public JsonFormat selectShopInfoById(@RequestParam(value="userId", required=true) String userId){
+		 	List<Userinfo> shopInfo = userInfoService.findShopInfoById(userId);
+		 	return shopInfo!=null&&shopInfo.size()>0?new JsonFormat("000000","查询成功",shopInfo):new JsonFormat("000001","查询失败",null);
+	      
+	   }
+	 
 }

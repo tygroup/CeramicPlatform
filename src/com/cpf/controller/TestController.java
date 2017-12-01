@@ -14,8 +14,6 @@ import com.cpf.beans.Test;
 import com.cpf.resource.common.UUIDGenerator;
 import com.cpf.service.TestService;
 
-@Controller
-@RequestMapping("testController")
 public class TestController {
 	 @Autowired
 	 private TestService uu;

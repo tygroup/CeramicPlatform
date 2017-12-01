@@ -115,6 +115,7 @@ public class TraProduct {
 	private String num;
 	
 	private String storename;
+	private String startingprice;
 	
 	
 	private List<TraProductFiles> pics;
@@ -518,6 +519,14 @@ public class TraProduct {
 
 	public void setPics(List<TraProductFiles> pics) {
 		this.pics = pics;
+	}
+
+	public String getStartingprice() {
+		return startingprice;
+	}
+
+	public void setStartingprice(String startingprice) {
+		this.startingprice = startingprice;
 	}
 	
 	

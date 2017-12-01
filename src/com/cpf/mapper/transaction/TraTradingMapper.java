@@ -1,5 +1,9 @@
 package com.cpf.mapper.transaction;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.cpf.beans.transaction.TraTrading;
 
 public interface TraTradingMapper {
@@ -39,4 +43,6 @@ public interface TraTradingMapper {
 	 * @mbggenerated
 	 */
 	int updateByPrimaryKey(TraTrading record);
+	
+	List<TraTrading> findProductionById(@Param("productId") String productId);
 }

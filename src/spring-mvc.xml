@@ -47,7 +47,6 @@
                         <bean class="com.fasterxml.jackson.databind.ObjectMapper">
                             <property name="dateFormat">
                                 <bean class="java.text.SimpleDateFormat">
-                                    <!-- 设置全局返回JSON到前端时日期格式化 -->
                                     <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"/>
                                 </bean>
                             </property>

@@ -13,6 +13,8 @@
     <result column="pricetime" property="pricetime" jdbcType="DATE" />
     <result column="userid" property="userid" jdbcType="VARCHAR" />
     <result column="isdeal" property="isdeal" jdbcType="VARCHAR" />
+    <result column="userName" property="userName" jdbcType="VARCHAR" />
+    <result column="storeName" property="storeName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     <!--
@@ -146,4 +148,14 @@
       isdeal = #{isdeal,jdbcType=VARCHAR}
     where recordid = #{recordid,jdbcType=VARCHAR}
   </update>
+  
+  <!-- 查询出价记录 根据productId -->
+  
+  <select id="selectBidRecordByProductId" resultMap="BaseResultMap">
+  	SELECT t.*,u.realname realName,u.storename storeName from tra_Bidrecord t LEFT JOIN userinfo u on t.userid = u.userid  where t.productid =#{productId} order by t.pricetime desc
+  	 LIMIT #{beginIndex},#{size}
+  </select>
+    <select id="selectBidRecordByProductIdCount" resultType="java.lang.Integer">
+  	SELECT COUNT(t.recordid) from tra_Bidrecord t LEFT JOIN userinfo u on t.userid = u.userid  where t.productid =#{productId} order by t.pricetime desc
+  </select>
 </mapper>

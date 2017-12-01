@@ -1,5 +1,9 @@
 package com.cpf.mapper.transaction;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.cpf.beans.transaction.TraBidrecord;
 
 public interface TraBidrecordMapper {
@@ -50,4 +54,11 @@ public interface TraBidrecordMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(TraBidrecord record);
+    
+    /**
+     * 根据拍品的id查询出家记录
+     */
+    List<TraBidrecord> selectBidRecordByProductId(@Param("productId") String productId,
+    		@Param("beginIndex") int beginIndex,@Param("size") int size);
+    int selectBidRecordByProductIdCount(@Param("productId") String productId);
 }
