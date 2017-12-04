@@ -24,8 +24,8 @@ public interface TraProductMapper extends BaseMapper<TraProduct, String>{
     int selectSpecialBySearchCount(@Param("productName") String productName,
 			@Param("cateid") String cateid,@Param("ismyself") String ismyself,@Param("era") String era);
     
-    List<SpecialBean> selectHotSpecialid(@Param("count") int count);
-    List<TraProduct> selectHotBarters(@Param("count") int count);
+    List<SpecialBean> selectHotSpecialid(@Param("beginIndex") int beginIndex,@Param("size") int size);
+    List<TraProduct> selectHotBarters(@Param("beginIndex") int beginIndex,@Param("size") int size);
     
    
     TraProduct findByPrimarykey(String productid);

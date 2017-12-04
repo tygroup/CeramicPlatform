@@ -1,5 +1,7 @@
 package com.cpf.mapper.transaction;
 
+import org.apache.ibatis.annotations.Param;
+import java.util.List;
 import com.cpf.beans.transaction.TraProductFiles;
 
 public interface TraProductFilesMapper {
@@ -50,4 +52,9 @@ public interface TraProductFilesMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(TraProductFiles record);
+    
+    /**
+     * 根据品种id查询商品的图片列表
+     */
+    List<TraProductFiles> selectPicByProductionId(@Param("productId")String productId);
 }

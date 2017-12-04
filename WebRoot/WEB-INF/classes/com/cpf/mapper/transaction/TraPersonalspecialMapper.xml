@@ -32,7 +32,7 @@
 		LEFT JOIN tra_trading t on o.Specialid = t.zcid and t.isAudit ='0'
 		 where o.is_best = '0' and o.Previewbegintimetime &lt;= now() 
 		group by Specialid,Auctionbegintime,Auctionendtime,Specialname
-		order by o.Previewbegintimetime LIMIT #{count}
+		order by o.Previewbegintimetime LIMIT #{beginIndex},#{size}
   </select>
   
   
@@ -140,10 +140,33 @@
   </resultMap>
   
   
-  <select id="selectPersonalById" resultMap="firstResultMap">
+  <select id="selectPersonalById_unuse" resultMap="firstResultMap">
    select o.*,p.*,f.*,t.Startingprice startingprice from tra_personalspecial o LEFT JOIN tra_trading t on o.Specialid = t.zcid LEFT JOIN tra_product p on t.productid = p.productid
 	LEFT JOIN tra_product_files f on p.productid = f.productid
 	where o.Specialid = #{zcId}
+  </select>
+  
+  
+      <resultMap id="secondResultMap" type="com.cpf.beans.transaction.TraPersonalspecial" >
+    <!--
+      		查询个人专场详情
+    -->
+    <id column="Specialid" property="specialid" jdbcType="VARCHAR" />
+    <result column="Specialname" property="specialname" jdbcType="VARCHAR" />
+    <result column="Specialcover" property="specialcover" jdbcType="VARCHAR" />
+    <result column="Previewbegintimetime" property="previewbegintimetime" jdbcType="DATE" />
+    <result column="Previewendtime" property="previewendtime" jdbcType="DATE" />
+    <result column="Auctionbegintime" property="auctionbegintime" jdbcType="DATE" />
+    <result column="Auctionendtime" property="auctionendtime" jdbcType="DATE" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="isAudit" property="isaudit" jdbcType="VARCHAR" />
+    <result column="is_best" property="isBest" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+    <select id="selectPersonalById" resultType="com.cpf.beans.transaction.TraPersonalspecial">
+   			select * from tra_personalspecial t where t.Specialid='1'
   </select>
   
 </mapper>

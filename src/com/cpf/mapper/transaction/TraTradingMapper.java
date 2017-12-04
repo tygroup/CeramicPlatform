@@ -10,4 +10,6 @@ import com.cpf.mapper.BaseMapper;
 public interface TraTradingMapper extends BaseMapper<TraTrading, String>{
 
 	List<TraTrading> findProductionById(@Param("productId") String productId);
+	List<TraTrading> findProductionByZcId(@Param("zcId")String zcId,@Param("beginIndex") int beginIndex,@Param("size") int size);
+	int findProductionByZcIdCount(@Param("zcId") String zcId);
 }

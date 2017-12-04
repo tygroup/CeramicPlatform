@@ -38,10 +38,11 @@ public class PersonalSpecialidController {
 	
 	 @RequestMapping(value = "/getBestPersionSpecialidList", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
 	 @ResponseBody
-	 public JsonFormat selectBestPersionSpecialidList(@RequestParam(value="count", required=true) String count){
-		 if(Validators.isNumeric(count)){
-			 int icount = Integer.parseInt(count);
-			  List<TraPersonalspecial> bestOfficialSpecial = persionalSpecialidService.selectBestPersonalSpecialid(icount);
+	 public JsonFormat selectBestPersionSpecialidList(@RequestParam(value="cpage", required=true) String cpage,@RequestParam(value="pageSize", required=true) String pageSize){
+		 if(Validators.isNumeric(cpage)&&Validators.isNumeric(pageSize)){
+			  int beginIndex = (Integer.parseInt(cpage)-1)*Integer.parseInt(pageSize);
+	          int size = Integer.parseInt(pageSize);
+			  List<TraPersonalspecial> bestOfficialSpecial = persionalSpecialidService.selectBestPersonalSpecialid(beginIndex,size);
 		        return bestOfficialSpecial!=null&&bestOfficialSpecial.size()>0?new JsonFormat("000000","查询成功",bestOfficialSpecial):new JsonFormat("000001","无数据",null);
 		 }else{
 			 return new JsonFormat("000002","参数错误",null);
@@ -81,8 +82,8 @@ public class PersonalSpecialidController {
 		 @RequestMapping(value = "/personnalInfo", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
 		 @ResponseBody
 		 public JsonFormat selectPersonnalInfo(@RequestParam(value="zcId", required=true) String zcId){
-			List<TraPersonalspecial> personalSpecials = persionalSpecialidService.selectPersonalById(zcId);
-		    return personalSpecials!=null&&personalSpecials.size()>0?new JsonFormat("000000","查询成功",personalSpecials):new JsonFormat("000001","无数据",null);
+			TraPersonalspecial personalSpecials = persionalSpecialidService.selectPersonalById(zcId);
+		    return personalSpecials!=null?new JsonFormat("000000","查询成功",personalSpecials):new JsonFormat("000001","无数据",null);
 			 
 		      
 		   }

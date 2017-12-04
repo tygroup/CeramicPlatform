@@ -28,6 +28,9 @@
     <result column="Agencycertification" property="agencycertification" jdbcType="VARCHAR" />
     <result column="creditlevel" property="creditlevel" jdbcType="VARCHAR" />
     <result column="is_best" property="isBest" jdbcType="VARCHAR"/>
+    <result column="createtime" property="createtime" jdbcType="DATE"/>
+    <result column="usertype" property="usertype" jdbcType="VARCHAR"/>
+    <result column="sc" property="sc" jdbcType="VARCHAR"/>
   </resultMap>
   <sql id="Base_Column_List" >
     <!--
@@ -43,9 +46,11 @@
    
     select *   from userinfo  where userid = #{userid,jdbcType=VARCHAR}
   </select>
-  <insert id="insert" parameterType="com.cpf.beans.system.Userinfo" >
-   
+  <insert id="save" parameterType="com.cpf.beans.system.Userinfo" >
     insert into userinfo
+   	<selectKey resultType="java.lang.String"  order="BEFORE" keyProperty="userinfoid">  
+	 	 	  SELECT REPLACE(UUID(), '-', '')   
+	    </selectKey> 
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="userinfoid != null" >
         userinfoid,
@@ -178,7 +183,6 @@
     </trim>
   </insert>
   <update id="update" parameterType="com.cpf.beans.system.Userinfo" >
-   
     update userinfo
     <set >
       <if test="userinfoid != null" >
@@ -247,7 +251,7 @@
   
    <!-- 查询精品店铺 -->
    <select id="findBestShopList" resultMap="BaseResultMap">
-   		select * from userinfo u  where u.is_best='0' LIMIT #{count}
+   		select * from userinfo u  where u.is_best='0' LIMIT #{beginIndex},#{size}
    </select>
    
    <resultMap id="FirstResultMap" type="com.cpf.beans.system.Userinfo" >
@@ -308,4 +312,24 @@
    	select * from userinfo u left JOIN tra_product p on u.userid = p.userid LEFT JOIN tra_trading t on p.productid = t.productid and t.isAudit = '0' LEFT JOIN tra_product_files f on p.productid = f.productid where u.userid = #{userId}
    	</select>
  
+ <!-- 查询商铺列表 -->
+ <select id="selectShopList" resultMap="BaseResultMap">
+	 select userinfoid,storename,photourl,Verified,Agencycertification,creditlevel,createtime,usertype,count(collectId) sc from (select u.userinfoid userinfoid,u.storename storename,u.photourl photourl,u.Verified Verified,u.Agencycertification Agencycertification,u.creditlevel creditlevel,s.createtime createtime,s.usertype usertype  from 
+	userinfo u ,users s  where u.userid= s.userid ) tt left join sys_collect t on userinfoid = t.productId 
+	and t.collectType='3' group by userinfoid,storename,photourl,Verified,Agencycertification,creditlevel,createtime,usertype 
+	<if test="sort!=null and sort!='' and sort=='0'.toString()">
+	  <!-- 根据收藏量倒序 -->
+	  order by sc desc 
+	</if>
+	<if test="sort!=null and sort!='' and sort=='1'.toString()">
+	  <!-- 根据创建时间 倒序-->
+	  order by createtime desc 
+	</if>
+	<if test="sort!=null and sort!='' and sort=='2'.toString()">
+	  <!-- 根据会员等级 倒序-->
+	  order by usertype desc 
+	</if>
+	
+	limit #{beginIndex},#{size}
+ </select>
 </mapper>

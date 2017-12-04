@@ -30,7 +30,9 @@ public class Userinfo {
     private String creditlevel;
     private String isBest;
     private List<TraProduct> productions;
-
+    private Date createtime;
+    private String usertype;
+    private String sc;
     
     public String getUserid() {
         return userid;
@@ -229,6 +231,30 @@ public class Userinfo {
 
 	public void setProductions(List<TraProduct> productions) {
 		this.productions = productions;
+	}
+
+	public Date getCreatetime() {
+		return createtime;
+	}
+
+	public void setCreatetime(Date createtime) {
+		this.createtime = createtime;
+	}
+
+	public String getUsertype() {
+		return usertype;
+	}
+
+	public void setUsertype(String usertype) {
+		this.usertype = usertype;
+	}
+
+	public String getSc() {
+		return sc;
+	}
+
+	public void setSc(String sc) {
+		this.sc = sc;
 	}
     
     

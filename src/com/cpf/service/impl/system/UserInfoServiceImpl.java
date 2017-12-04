@@ -15,15 +15,21 @@ public class UserInfoServiceImpl implements UserInfoService {
 	private UserinfoMapper userInfoMapper;
 
 	@Override
-	public List<Userinfo> findBestShopList(int count) {
+	public List<Userinfo> findBestShopList(int beginIndex,int size) {
 		// TODO Auto-generated method stub
-		return userInfoMapper.findBestShopList(count);
+		return userInfoMapper.findBestShopList(beginIndex,size);
 	}
 
 	@Override
 	public List<Userinfo> findShopInfoById(String userId) {
 		// TODO Auto-generated method stub
 		return userInfoMapper.findShopInfoById(userId);
+	}
+
+	@Override
+	public List<Userinfo> selectShopList(String sort, int beginIndex, int size) {
+		// TODO Auto-generated method stub
+		return userInfoMapper.selectShopList(sort, beginIndex, size);
 	}
 	
 }

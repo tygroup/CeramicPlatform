@@ -9,15 +9,15 @@ import com.cpf.beans.system.Userinfo;
 import com.cpf.mapper.system.UserinfoMapper;
 import com.cpf.service.system.UserInfoService;
 
-@Service("userInfoService")
+@Service("userInfoService1")
 public class UserInfoServiceImpl implements UserInfoService {
 	@Autowired
 	private UserinfoMapper userInfoMapper;
 
 	@Override
-	public List<Userinfo> findBestShopList(int count) {
+	public List<Userinfo> findBestShopList(int beginIndex,int size) {
 		// TODO Auto-generated method stub
-		return userInfoMapper.findBestShopList(count);
+		return userInfoMapper.findBestShopList(beginIndex,size);
 	}
 
 	@Override

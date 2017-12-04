@@ -7,8 +7,8 @@ import org.apache.ibatis.annotations.Param;
 import com.cpf.beans.transaction.TraPersonalspecial;
 
 public interface PersonalSpecialidService {
-	public List<TraPersonalspecial> selectBestPersonalSpecialid(int count);
+	public List<TraPersonalspecial> selectBestPersonalSpecialid(int beginIndex,int size);
 	public List<TraPersonalspecial> findPersonalSpecialList(String specialName,String status,int beginIndex,int endIndex);
 	public int findPersonalSpecialListCount(String specialName,String status);
-	public List<TraPersonalspecial> selectPersonalById(String zcId);
+	public TraPersonalspecial selectPersonalById(String zcId);
 }

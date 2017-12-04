@@ -105,7 +105,7 @@
 		 	<!-- 按照搜藏排序 -->
 		 	order by num desc 
 		 </if>
-		 ) tt LEFT JOIN  tra_product_files f on tt.productid = f.productid 
+		 ) tt   
 		 limit #{beginIndex},#{endIndex};
    </select>
      <select id="selectBartersBySearchCount" resultType="java.lang.Integer">
@@ -203,7 +203,7 @@
 		 	<!-- 按照搜藏排序 -->
 		 	order by num desc 
 		 </if>
-		  ) tt ) ttt left join tra_product_files f on ttt.productid = f.productid    limit #{beginIndex},#{endIndex};
+		  ) tt ) ttt      limit #{beginIndex},#{endIndex};
    
    </select>
       <!-- 查询分页需要的总数量 -->
@@ -280,7 +280,7 @@
 
 	where t.is_hot = '0' and t.toused = '0' and t.isshelf ='0' and t.isAudit='0' and t.is_deal='1'
 	group by productid,productname,Startingprice,zcType,zcid
-	) tt )ttt left join tra_product_files f on ttt.productid = f.productid  LIMIT #{count}
+	) tt )ttt    LIMIT #{beginIndex},#{size}
    	
    	</select>
    	<!-- 查询热门易物 -->
@@ -295,8 +295,8 @@
 			LEFT JOIN userinfo u on p.userid = u.userid
 
 	where t.is_hot = '0' and t.toused = '1' and t.isshelf ='0' and t.isAudit='0' and t.is_deal='1'
-	) tt  LEFT JOIN tra_product_files f on tt.productid = f.productid
- 	LIMIT #{count}
+	) tt   
+ 	LIMIT #{beginIndex},#{size}
    	</select>
    
 </mapper>

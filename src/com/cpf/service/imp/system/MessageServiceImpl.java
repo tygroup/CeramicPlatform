@@ -10,7 +10,7 @@ import com.cpf.beans.system.SysNews;
 import com.cpf.mapper.system.RelNewsViewMapper;
 import com.cpf.mapper.system.SysNewsMapper;
 import com.cpf.service.system.MessageService;
-@Service("messageService")
+@Service("messageService1")
 public class MessageServiceImpl implements MessageService {
 	@Autowired
 	private RelNewsViewMapper relNewsViewMapper;
