@@ -29,6 +29,7 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public Users regester(Users uu) {
 		  usermap.regester(uu);
+		 
 		  //注册，同时写入店铺表，用户金额表
 		  Useramount amount = new Useramount();
 		  	amount.setUserid(uu.getUserid());

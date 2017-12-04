@@ -1,10 +1,10 @@
 package com.cpf.controller.system;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.cpf.beans.transaction.TraProduct;
+import com.cpf.beans.transaction.TraProductFiles;
 import com.cpf.beans.transaction.TraTrading;
 import com.cpf.service.system.ProductService;
 import com.cpf.service.transaction.TraTradingService;
@@ -41,19 +44,22 @@ public class ProductController {
     @RequestMapping(value = "/manageProducts", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonFormat manageProducts(@RequestParam(value="msg", required=false) String msg){
+    	//pics 图片以list形式传递
+    	JSONObject jsonObject=JSONObject.parseObject(msg);
     	
-    	JSONObject jsonObject=JSONObject.fromObject(msg);
+    	TraProduct product = (TraProduct) jsonObject.toJavaObject(TraProduct.class);
     	
-    	TraProduct product = (TraProduct) jsonObject.toBean(jsonObject,TraProduct.class);
-    	
-    	if(product!=null && product.getProductid()!=null){
+    	String pics = product.getQtpics();
+    
+    
+    	if(product!=null && product.getProductid()!=null && !product.getProductid().equals("")){
     		
-    		product= service.insert(product);
-    	}else{
     		product= service.update(product);
+    	}else{
+    		product= service.insert(product);
     	}
     	
-        return product!=null?new JsonFormat("000000","查询成功",product):new JsonFormat("000001","无数据",product);
+        return product!=null?new JsonFormat("000000","操作成功",product):new JsonFormat("000001","无数据",product);
     }
     /**
 	 * 查看商品列表
@@ -66,8 +72,12 @@ public class ProductController {
     	if(Validators.isNumeric(cpage)&&Validators.isNumeric(pageSize)){
             int beginIndex = (Integer.parseInt(cpage)-1)*Integer.parseInt(pageSize);
             int endIndex = Integer.parseInt(cpage)*Integer.parseInt(pageSize);
-            List<TraProduct> OfficialSpecials = service.findByUserid(userId, beginIndex, endIndex);
-			  int totalCount = service.findByUseridCount(userId);
+            Map<String ,Object> map = new HashMap<String, Object>();
+            map.put("userId", userId);
+            map.put("beginIndex", beginIndex);
+            map.put("endIndex", endIndex);
+            List<TraProduct> OfficialSpecials = service.selectProductsByUserId(map);
+			  int totalCount = service.findByUseridCount(map);
 		      return OfficialSpecials!=null&&OfficialSpecials.size()>0?new JsonFormat("000000","查询成功",totalCount,OfficialSpecials):new JsonFormat("000001","无数据",0,null);
 		 }else{
 			 return new JsonFormat("000002","参数错误",null);
@@ -120,8 +130,8 @@ public class ProductController {
     	  map.put("toUsed", toUsed);
     	  map.put("userId", userId);
     	  */
-    	JSONObject jsonObject=JSONObject.fromObject(msg);
-    	TraTrading trad = (TraTrading) jsonObject.toBean(jsonObject,TraProduct.class);
+    	JSONObject jsonObject=JSONObject.parseObject(msg);
+    	TraTrading trad = (TraTrading) jsonObject.toJavaObject(TraTrading.class);
     		trad = tradservice.save(trad);
     	   
     	   return trad!=null?new JsonFormat("000000","写入成功",trad):new JsonFormat("000001","无数据",trad);

@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 public interface BaseMapper<T, PK>{
 
-	public T save(T entity);
+	public void save(T entity);
 
 	public void update(T entity);
 

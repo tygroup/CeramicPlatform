@@ -1,9 +1,10 @@
 package com.cpf.beans.system;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
-public class Users {
+public class Users implements Serializable{
    
     private String userid;
     private String phonenum;

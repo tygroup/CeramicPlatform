@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cpf.beans.transaction.TraProduct;
+import com.cpf.beans.transaction.TraProductFiles;
+import com.cpf.mapper.transaction.TraProductFilesMapper;
 import com.cpf.mapper.transaction.TraProductMapper;
 import com.cpf.service.system.ProductService;
 
@@ -16,26 +18,51 @@ import com.cpf.service.system.ProductService;
 public class ProductServiceImpl implements  ProductService{
 	@Autowired
 	private TraProductMapper productMapper;
+	@Autowired
+	private TraProductFilesMapper filesmapper;
 	@Override
 	public TraProduct insert(TraProduct pro) {
-		return productMapper.save(pro);
+		
+		productMapper.save(pro);
+		 
+		 if(pro.getPics()!=null && pro.getPics().size()!=0){
+			 getPics(pro.getQtpics(),pro.getProductid());
+			 
+		 }
+		 return pro;
 	}
 
 	@Override
 	public TraProduct update(TraProduct pro) {
 		  productMapper.update(pro);
+		
+		  //先删除对应的文件，然后insert
+		  filesmapper.deleteFilesByProductid(pro.getProductid());
+		  
+		  if(pro.getPics()!=null && pro.getPics().size()!=0){
+			  getPics(pro.getQtpics(),pro.getProductid());
+			 }
 		  return pro;
 	}
-
-	@Override
-	public List<TraProduct> findByUserid(String userid, int beginIndex,
-			int endIndex) {
-		return productMapper.findByUserid(userid, beginIndex, endIndex);
+	//写入文件
+	private void getPics(String pics,String productid){
+		if(pics!=null && !pics.equals("")){
+			String[] strlist = pics.split(",");
+			for(String str:strlist){
+				TraProductFiles files = new TraProductFiles();
+				files.setFiles(str);
+				files.setProductid(productid);
+				filesmapper.save(files);
+			}
+		}
+		
 	}
-
+	
+	
+	 
 	@Override
-	public int findByUseridCount(String userid) {
-		return productMapper.findByUseridCount(userid);
+	public int findByUseridCount(Map<String, Object> params) {
+		return productMapper.findByUseridCount(params);
 	}
 
 	@Override
@@ -46,12 +73,13 @@ public class ProductServiceImpl implements  ProductService{
 
 	@Override
 	public TraProduct getByPrimarykey(String productid) {
-		return productMapper.findById(productid);
+		TraProduct pro = productMapper.findById(productid);
+			pro.setPics(filesmapper.selectPicByProductionId(productid));
+		return pro;
 	}
 
 	@Override
 	public List<TraProduct> selectProductsByUserId(Map<String, Object> params) {
-		
 		return productMapper.selectProductsByUserId(params);
 	}
 

@@ -10,13 +10,10 @@ public interface ProductService {
 	
 	public TraProduct  update(TraProduct pro);
 	
-	public List<TraProduct>  findByUserid(String userid, int beginIndex, int  endIndex);
-	
-	public int   findByUseridCount(String userid);
-	
 	public boolean  delete(String productid);
 	
 	public TraProduct  getByPrimarykey(String productid);
 	
 	List<TraProduct> selectProductsByUserId( Map<String, Object> params);
+	public int   findByUseridCount(Map<String, Object> params);
 }

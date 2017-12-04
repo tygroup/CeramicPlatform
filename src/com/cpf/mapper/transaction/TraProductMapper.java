@@ -30,11 +30,10 @@ public interface TraProductMapper extends BaseMapper<TraProduct, String>{
    
     TraProduct findByPrimarykey(String productid);
     
-    List<TraProduct> findByUserid(@Param("userid")String userid,@Param("beginIndex") int beginIndex,@Param("endIndex") int endIndex);
-    
-    int  findByUseridCount(@Param("userid")String userid);
     
     boolean delete(String productid);
+    
+    int  findByUseridCount(@Param("map")Map<String, Object> params);
     
     List<TraProduct>  selectProductsByUserId(@Param("map")Map<String, Object> params);
     
