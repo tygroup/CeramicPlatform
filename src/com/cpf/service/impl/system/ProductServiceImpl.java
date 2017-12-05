@@ -25,7 +25,7 @@ public class ProductServiceImpl implements  ProductService{
 		
 		productMapper.save(pro);
 		 
-		 if(pro.getPics()!=null && pro.getPics().size()!=0){
+		 if(pro.getQtpics()!=null && !pro.getQtpics().equals("")){
 			 getPics(pro.getQtpics(),pro.getProductid());
 			 
 		 }
@@ -81,6 +81,17 @@ public class ProductServiceImpl implements  ProductService{
 	@Override
 	public List<TraProduct> selectProductsByUserId(Map<String, Object> params) {
 		return productMapper.selectProductsByUserId(params);
+	}
+
+	@Override
+	public List<TraProduct> selectProductsByUserIdforSJ(
+			Map<String, Object> params) {
+		return productMapper.selectProductsByUserIdforSJ(params);
+	}
+
+	@Override
+	public int selectProductsByUseridCountforSJ(Map<String, Object> params) {
+		return productMapper.selectProductsByUseridCountforSJ(params);
 	}
 
 }

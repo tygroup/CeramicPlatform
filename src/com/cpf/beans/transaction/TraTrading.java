@@ -6,40 +6,28 @@ public class TraTrading {
 
 	 
 	private String tradingid;
-	 
 	private String productid;
-	 
 	private String toused;
-	 
 	private String isshelf;
-	 
 	private Double startingprice;
-	 
 	private Double reserveprice;
-	 
 	private String isnoreserveprice;
-	 
 	private String zcid;
-	 
 	private String barterneeds;
-	 
 	private String fare;
-	 
 	private String oninsurance;
-	 
 	private String onreturns;
-	
 	private String isaudit;
-	
 	private Date auditdate;
 	private String zcType;
 	private String isHot;
-
 	private String isDeal;
 	private Date dealdate;
-	
 	private Date begintime;
 	private Date endtime;
+	
+	
+	
 	
 	private TraProduct production;
 	public TraProduct getProduction() {

@@ -15,5 +15,10 @@ public interface ProductService {
 	public TraProduct  getByPrimarykey(String productid);
 	
 	List<TraProduct> selectProductsByUserId( Map<String, Object> params);
+	
 	public int   findByUseridCount(Map<String, Object> params);
+	
+	List<TraProduct> selectProductsByUserIdforSJ( Map<String, Object> params);
+	
+	public int   selectProductsByUseridCountforSJ(Map<String, Object> params);
 }

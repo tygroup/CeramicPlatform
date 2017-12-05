@@ -49,9 +49,6 @@ public class ProductController {
     	
     	TraProduct product = (TraProduct) jsonObject.toJavaObject(TraProduct.class);
     	
-    	String pics = product.getQtpics();
-    
-    
     	if(product!=null && product.getProductid()!=null && !product.getProductid().equals("")){
     		
     		product= service.update(product);
@@ -107,15 +104,27 @@ public class ProductController {
    	 */
     @RequestMapping(value = "/findProductsListById", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public JsonFormat findByUserId(@RequestParam(value="toUsed", required=false) String toUsed,@RequestParam(value="userId", required=false) String userId){
-       	Map<String ,Object> map = new HashMap<String, Object>();
-    	  map.put("toUsed", toUsed);
-    	  map.put("userId", userId);
+    public JsonFormat findByUserId(@RequestParam(value="toUsed", required=false) String toUsed,@RequestParam(value="userId", required=false) String userId,@RequestParam(value="cpage", required=true) String cpage,
+    		@RequestParam(value="pageSize", required=true) String pageSize,@RequestParam(value="isAudit", required=true) String isAudit,@RequestParam(value="isPm", required=true)String isPm){
+    	if(Validators.isNumeric(cpage)&&Validators.isNumeric(pageSize)){
+            int beginIndex = (Integer.parseInt(cpage)-1)*Integer.parseInt(pageSize);
+            int endIndex = Integer.parseInt(cpage)*Integer.parseInt(pageSize);
+            Map<String ,Object> map = new HashMap<String, Object>();
+	            map.put("toUsed", toUsed);
+	            map.put("userId", userId);
+	            map.put("isAudit", isAudit);//待预展/预展中 0/1
+	            map.put("isPm", isPm);//拍卖中1   已结束 0
+	            map.put("beginIndex", beginIndex);
+	            map.put("endIndex", endIndex);
     	  
-       List<TraProduct> list = 	service.selectProductsByUserId(map);
+            List<TraProduct> list = 	service.selectProductsByUserId(map);
     	   
     	   return list!=null?new JsonFormat("000000","查询成功",list):new JsonFormat("000001","无数据",list);
-       }
+      
+    	 }else{
+			 return new JsonFormat("000002","参数错误",null);
+		 }
+   }
        
     /**
    	 * 我的 将 商品 送到 易物/拍卖
@@ -126,15 +135,15 @@ public class ProductController {
     @RequestMapping(value = "/sendPrductsToDo", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonFormat sendPrductsToDo(@RequestParam(value="msg", required=false) String msg){
-       /*	Map<String ,Object> map = new HashMap<String, Object>();
-    	  map.put("toUsed", toUsed);
-    	  map.put("userId", userId);
-    	  */
-    	JSONObject jsonObject=JSONObject.parseObject(msg);
-    	TraTrading trad = (TraTrading) jsonObject.toJavaObject(TraTrading.class);
-    		trad = tradservice.save(trad);
-    	   
-    	   return trad!=null?new JsonFormat("000000","写入成功",trad):new JsonFormat("000001","无数据",trad);
+	       /*	Map<String ,Object> map = new HashMap<String, Object>();
+	    	  map.put("toUsed", toUsed);
+	    	  map.put("userId", userId);
+	    	  */
+	    	JSONObject jsonObject=JSONObject.parseObject(msg);
+	    	TraTrading trad = (TraTrading) jsonObject.toJavaObject(TraTrading.class);
+	    		trad = tradservice.save(trad);
+	    	   
+	        return trad!=null?new JsonFormat("000000","写入成功",trad):new JsonFormat("000001","无数据",trad);
        }
        
 }

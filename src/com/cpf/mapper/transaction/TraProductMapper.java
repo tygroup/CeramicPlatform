@@ -37,4 +37,8 @@ public interface TraProductMapper extends BaseMapper<TraProduct, String>{
     
     List<TraProduct>  selectProductsByUserId(@Param("map")Map<String, Object> params);
     
+    public List<TraProduct> selectProductsByUserIdforSJ(Map<String, Object> params);
+
+	public int selectProductsByUseridCountforSJ(Map<String, Object> params);
+    
 }

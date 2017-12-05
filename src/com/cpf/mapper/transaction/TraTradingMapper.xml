@@ -82,56 +82,56 @@
       <if test="isshelf != null" >
         isshelf,
       </if>
-      <if test="Startingprice != null" >
-        Startingprice,
+      <if test="startingprice != null" >
+        startingprice,
       </if>
-      <if test="Reserveprice != null" >
-        Reserveprice,
+      <if test="reserveprice != null" >
+        reserveprice,
       </if>
-      <if test="isNoreserveprice != null" >
-        isNoreserveprice,
-      </if>
-      <if test="birthday != null" >
-        birthday,
+      <if test="isnoreserveprice != null" >
+        isnoreserveprice,
       </if>
       <if test="zcid != null" >
         zcid,
       </if>
-      <if test="Barterneeds != null" >
-        Barterneeds,
+      <if test="barterneeds != null" >
+        barterneeds,
       </if>
       <if test="fare != null" >
         fare,
       </if>
-      <if test="onInsurance != null" >
-        onInsurance,
+      <if test="oninsurance != null" >
+        oninsurance,
       </if>
-      <if test="onReturns != null" >
+      <if test="onreturns != null" >
         onReturns,
       </if>
-      <if test="isAudit != null" >
+      <if test="isaudit != null" >
         isAudit,
       </if>
-      <if test="auditDate != null" >
-        auditDate,
+      <if test="auditdate != null" >
+        auditdate,
       </if>
       <if test="zcType != null" >
         zcType,
       </if>
-      <if test="is_hot != null" >
+      <if test="isHot != null" >
         is_hot,
       </if>
-      <if test="is_deal != null" >
+      <if test="isDeal != null" >
         is_deal,
       </if>
       <if test="dealdate != null" >
         dealdate,
       </if>
+      <if test="begintime != null" >
+      begintime,
+      </if>
+      <if test="endtime != null" >
+      endtime
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="userinfoid != null" >
-        #{userinfoid,jdbcType=VARCHAR},
-      </if>
       <if test="tradingid != null" >
         #{tradingid,jdbcType=VARCHAR},
       </if>
@@ -144,54 +144,60 @@
       <if test="isshelf != null" >
        #{isshelf,jdbcType=VARCHAR},
       </if>
-      <if test="Startingprice != null" >
-        #{Startingprice,jdbcType=VARCHAR},
+      <if test="startingprice != null" >
+        #{startingprice,jdbcType=VARCHAR},
       </if>
-      <if test="Reserveprice != null" >
-        #{Reserveprice,jdbcType=VARCHAR},
+      <if test="reserveprice != null" >
+        #{reserveprice,jdbcType=VARCHAR},
       </if>
-      <if test="isNoreserveprice != null" >
-        #{isNoreserveprice,jdbcType=VARCHAR},
-      </if>
-      <if test="birthday != null" >
-        #{birthday,jdbcType=VARCHAR},
+      <if test="isnoreserveprice != null" >
+        #{isnoreserveprice,jdbcType=VARCHAR},
       </if>
       <if test="zcid != null" >
           #{zcid,jdbcType=VARCHAR},
       </if>
-      <if test="Barterneeds != null" >
-         #{Barterneeds,jdbcType=VARCHAR},
+      <if test="barterneeds != null" >
+         #{barterneeds,jdbcType=VARCHAR},
       </if>
       <if test="fare != null" >
          #{fare,jdbcType=VARCHAR},
       </if>
-      <if test="onInsurance != null" >
-       #{onInsurance,jdbcType=VARCHAR},
+      <if test="oninsurance != null" >
+       #{oninsurance,jdbcType=VARCHAR},
       </if>
-      <if test="onReturns != null" >
-        #{onReturns,jdbcType=VARCHAR},
+      <if test="onreturns != null" >
+        #{onreturns,jdbcType=VARCHAR},
       </if>
-      <if test="isAudit != null" >
-        #{isAudit,jdbcType=VARCHAR},
+      <if test="isaudit != null" >
+        #{isaudit,jdbcType=VARCHAR},
       </if>
-      <if test="auditDate != null" >
-         #{auditDate,jdbcType=VARCHAR},
+      <if test="auditdate != null" >
+         #{auditdate,jdbcType=VARCHAR},
       </if>
       <if test="zcType != null" >
          #{zcType,jdbcType=VARCHAR},
       </if>
-      <if test="is_hot != null" >
-       #{is_hot,jdbcType=VARCHAR},
+      <if test="isHot != null" >
+       #{isHot,jdbcType=VARCHAR},
       </if>
-      <if test="is_deal != null" >
-         #{is_deal,jdbcType=VARCHAR},
+      <if test="isDeal != null" >
+         #{isDeal,jdbcType=VARCHAR},
       </if>
       <if test="dealdate != null" >
        #{dealdate,jdbcType=VARCHAR},
       </if>
+      <if test="begintime != null" >
+       #{begintime,jdbcType=DATE},
+      </if>
+      <if test="endtime != null" >
+       #{endtime,jdbcType=DATE},
+      </if>
     </trim>
   </insert>
-  
+   <delete id="delete" parameterType="java.lang.String" >
+     
+    delete from tra_trading   where tradingid = #{tradingid,jdbcType=VARCHAR}
+  </delete>
   
   <resultMap id="firstResultMap" type="com.cpf.beans.transaction.TraTrading">
     <!--

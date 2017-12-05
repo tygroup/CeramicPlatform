@@ -475,16 +475,56 @@
     where productid = #{productid,jdbcType=VARCHAR}
   </update>
   
-  <select id="findById" parameterType="java.lang.String">
+  <select id="findById" parameterType="java.lang.String" resultType="TraProduct">
  	select * from  Tra_Product  where productid = #{productid,jdbcType=VARCHAR}
   </select>
   <!--用户查询自己的商品 -->
   <select id="selectProductsByUserId" resultType="TraProduct">
-	   	select * from tra_product  tt  	where 1=1  
-	   	<if test="userId != null" >
-	      userId =  #{userId,jdbcType=VARCHAR},
+	   	select * from tra_product  tt  	where state=0  
+	   	<if test="map.userId != null" >
+	     and  userId =  #{map.userId,jdbcType=VARCHAR}
 	    </if> 
 	     
-	 	LIMIT #{beginIndex},#{endIndex}
+	 	LIMIT #{map.beginIndex},#{map.endIndex}
+  </select>
+   <select id="findByUseridCount" resultType="java.lang.Integer">
+	   	select count(productid) from tra_product  tt  	where state=0  
+	   	<if test="map.userId != null" >
+	     and userId =  #{map.userId,jdbcType=VARCHAR}
+	    </if> 
+  </select>
+   <!--用户查询拍卖或者易物的商品 -->
+  <select id="selectProductsByUserIdforSJ" resultType="TraProduct" parameterType="map">
+	   	select t.*,pro.productid,files.files from tra_trading  t 
+		LEFT JOIN tra_product pro on t.productid = pro.productid
+		left join tra_product_files files on files.productid=pro.productid
+		where  t.isshelf=0 and t.isAudit=0
+	   	<if test="map.userId != null and map.userId != ''" >
+	     and pro.userid= #{map.userId,jdbcType=VARCHAR}
+	    </if> 
+	    <if test="map.isAudit != null and map.isAudit != ''" >
+	     and pro.isAudit= #{map.isAudit,jdbcType=VARCHAR}
+	    </if> 
+	    <if test="map.isPm != null and map.isPm != '' " >
+	     and pro.is_deal= #{map.isPm,jdbcType=VARCHAR}
+	    </if> 
+	     
+	 	LIMIT #{map.beginIndex},#{map.endIndex}
+  </select>
+   <select id="selectProductsByUseridCountforSJ" parameterType="map" resultType="java.lang.Integer">
+	   	select count(t.tradingid) from tra_trading  t 
+		LEFT JOIN tra_product pro on t.productid = pro.productid
+		left join tra_product_files files on files.productid=pro.productid
+		where  t.isshelf=0 and t.isAudit=0
+	   	<if test="map.userId != null and map.userId != ''" >
+	     and pro.userid= #{map.userId,jdbcType=VARCHAR}
+	    </if> 
+	    <if test="map.isAudit != null and map.isAudit != ''" >
+	     and pro.isAudit= #{map.isAudit,jdbcType=VARCHAR}
+	    </if> 
+	    <if test="map.isPm != null and map.isPm != '' " >
+	     and pro.is_deal= #{map.isPm,jdbcType=VARCHAR}
+	    </if> 
+	     
   </select>
 </mapper>
