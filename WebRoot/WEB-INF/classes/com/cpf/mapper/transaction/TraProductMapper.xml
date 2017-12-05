@@ -105,7 +105,7 @@
 		 	<!-- 按照搜藏排序 -->
 		 	order by num desc 
 		 </if>
-		 ) tt LEFT JOIN  tra_product_files f on tt.productid = f.productid 
+		 ) tt   
 		 limit #{beginIndex},#{endIndex};
    </select>
      <select id="selectBartersBySearchCount" resultType="java.lang.Integer">
@@ -203,7 +203,7 @@
 		 	<!-- 按照搜藏排序 -->
 		 	order by num desc 
 		 </if>
-		  ) tt ) ttt left join tra_product_files f on ttt.productid = f.productid    limit #{beginIndex},#{endIndex};
+		  ) tt ) ttt      limit #{beginIndex},#{endIndex};
    
    </select>
       <!-- 查询分页需要的总数量 -->
@@ -280,7 +280,7 @@
 
 	where t.is_hot = '0' and t.toused = '0' and t.isshelf ='0' and t.isAudit='0' and t.is_deal='1'
 	group by productid,productname,Startingprice,zcType,zcid
-	) tt )ttt left join tra_product_files f on ttt.productid = f.productid  LIMIT #{count}
+	) tt )ttt    LIMIT #{beginIndex},#{size}
    	
    	</select>
    	<!-- 查询热门易物 -->
@@ -295,8 +295,196 @@
 			LEFT JOIN userinfo u on p.userid = u.userid
 
 	where t.is_hot = '0' and t.toused = '1' and t.isshelf ='0' and t.isAudit='0' and t.is_deal='1'
-	) tt  LEFT JOIN tra_product_files f on tt.productid = f.productid
- 	LIMIT #{count}
+	) tt   
+ 	LIMIT #{beginIndex},#{size}
    	</select>
+   	
+   	
+   <insert id="save" parameterType="TraProduct" >
+    insert into tra_product
+      	<selectKey resultType="java.lang.String"  order="BEFORE" keyProperty="productid">  
+	 	 	  SELECT REPLACE(UUID(), '-', '')   
+	    </selectKey> 
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productid != null" >
+        productid,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="productname != null" >
+        productname,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="cateid != null" >
+        cateid,
+      </if>
+      <if test="details != null" >
+        details,
+      </if>
+      <if test="isfinished != null" >
+        isfinished,
+      </if>
+      <if test="defect != null" >
+        defect,
+      </if>
+      <if test="isoriginal != null" >
+        isoriginal,
+      </if>
+      <if test="ismyself != null" >
+        ismyself,
+      </if>
+      
+      <if test="longl != null" >
+        longl,
+      </if>
+       <if test="width != null" >
+        width,
+      </if>
+       <if test="material != null" >
+        material,
+      </if>
+      <if test="framed != null" >
+        framed,
+      </if>
+      <if test="shape != null" >
+        shape,
+      </if>
+      <if test="era != null" >
+        era,
+      </if>
+      <if test="ismultiple != null" >
+        ismultiple,
+      </if>
+       <if test="moddate != null" >
+        moddate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      
+      <if test="productid != null" >
+        #{productid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="productname != null" >
+       #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="cateid != null" >
+         #{cateid,jdbcType=VARCHAR},
+      </if>
+      <if test="details != null" >
+        #{details,jdbcType=VARCHAR},
+      </if>
+      <if test="isfinished != null" >
+         #{isfinished,jdbcType=VARCHAR},
+      </if>
+      <if test="defect != null" >
+       #{defect,jdbcType=VARCHAR},
+      </if>
+      <if test="isoriginal != null" >
+        #{isoriginal,jdbcType=VARCHAR},
+      </if>
+      <if test="ismyself != null" >
+         #{ismyself,jdbcType=VARCHAR},
+      </if>
+      <if test="longl != null" >
+         #{longl,jdbcType=VARCHAR},
+      </if>
+       <if test="width != null" >
+          #{width,jdbcType=VARCHAR},
+      </if>
+       <if test="material != null" >
+         #{material,jdbcType=VARCHAR},
+      </if>
+      <if test="framed != null" >
+        #{framed,jdbcType=VARCHAR},
+      </if>
+      <if test="shape != null" >
+         #{shape,jdbcType=VARCHAR},
+      </if>
+      <if test="era != null" >
+        #{era,jdbcType=VARCHAR},
+      </if>
+      <if test="ismultiple != null" >
+       #{ismultiple,jdbcType=VARCHAR},
+      </if>
+       <if test="moddate != null" >
+        #{moddate,jdbcType=VARCHAR},
+      </if>
+       
+    </trim>
+  </insert>
+  <update id="update" parameterType="TraProduct" >
    
+    update Tra_Product
+    <set >
+      <if test="productname != null" >
+       productname =#{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+       author =  #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="cateid != null" >
+        cateid =  #{cateid,jdbcType=VARCHAR},
+      </if>
+      <if test="details != null" >
+        details = #{details,jdbcType=VARCHAR},
+      </if>
+      <if test="isfinished != null" >
+         isfinished = #{isfinished,jdbcType=VARCHAR},
+      </if>
+      <if test="defect != null" >
+       defect = #{defect,jdbcType=VARCHAR},
+      </if>
+      <if test="isoriginal != null" >
+       isoriginal= #{isoriginal,jdbcType=VARCHAR},
+      </if>
+      <if test="ismyself != null" >
+         ismyself=#{ismyself,jdbcType=VARCHAR},
+      </if>
+      <if test="longl != null" >
+        longl= #{longl,jdbcType=VARCHAR},
+      </if>
+       <if test="width != null" >
+         width= #{width,jdbcType=VARCHAR},
+      </if>
+       <if test="material != null" >
+         material=#{material,jdbcType=VARCHAR},
+      </if>
+      <if test="framed != null" >
+        framed = #{framed,jdbcType=VARCHAR},
+      </if>
+      <if test="shape != null" >
+       shape =   #{shape,jdbcType=VARCHAR},
+      </if>
+      <if test="era != null" >
+       era =  #{era,jdbcType=VARCHAR},
+      </if>
+      <if test="ismultiple != null" >
+      ismultiple =  #{ismultiple,jdbcType=VARCHAR},
+      </if>
+       moddate=current_timestamp(),
+    </set>
+    where productid = #{productid,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="findById" parameterType="java.lang.String">
+ 	select * from  Tra_Product  where productid = #{productid,jdbcType=VARCHAR}
+  </select>
+  <!--用户查询自己的商品 -->
+  <select id="selectProductsByUserId" resultType="TraProduct">
+	   	select * from tra_product  tt  	where 1=1  
+	   	<if test="userId != null" >
+	      userId =  #{userId,jdbcType=VARCHAR},
+	    </if> 
+	     
+	 	LIMIT #{beginIndex},#{endIndex}
+  </select>
 </mapper>

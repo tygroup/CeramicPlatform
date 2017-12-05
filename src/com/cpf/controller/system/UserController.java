@@ -36,9 +36,9 @@ public class UserController {
 	 */
     @RequestMapping(value = "/login", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public JsonFormat login(@RequestParam(value="account", required=false) String account,@RequestParam(value="password", required=false) String password){
+    public JsonFormat login(@RequestParam(value="phonenum", required=false) String phonenum,@RequestParam(value="password", required=false) String password){
     	
-        Users users = usersService.login(account, password);
+        Users users = usersService.login(phonenum, password);
         return users!=null?new JsonFormat("000000","查询成功",users):new JsonFormat("000001","无数据",users);
     }
     
@@ -53,6 +53,23 @@ public class UserController {
         Users users = usersService.getUsersMsg(userid);
         return users!=null?new JsonFormat("000000","查询成功",users):new JsonFormat("000001","无数据",users);
     }
+    
+    /**
+	 * 注册
+	 * @return
+	 */
+    @RequestMapping(value = "/regester", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public JsonFormat regester(@RequestParam(value="phonenum", required=false) String phonenum,@RequestParam(value="password", required=false) String password){
+    	
+        Users users = new Users();
+	        users.setPhonenum(phonenum);
+	        users.setPassword(password);
+	        users = usersService.regester(users);
+        return users!=null?new JsonFormat("000000","查询成功",users):new JsonFormat("000001","无数据",users);
+    }
+    
+    
     
     
 }

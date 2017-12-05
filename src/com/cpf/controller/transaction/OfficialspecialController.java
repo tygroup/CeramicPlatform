@@ -36,10 +36,11 @@ public class OfficialspecialController {
 	 */
 	 @RequestMapping(value = "/getBestSpecialList", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
 	 @ResponseBody
-	 public JsonFormat selectBestSpecialList(@RequestParam(value="count", required=true) String count){
-		 if(Validators.isNumeric(count)){
-			 int icount = Integer.parseInt(count);
-			  List<TraOfficialspecial> bestOfficialSpecial = officialspecialService.findBestSpecialList(icount);
+	 public JsonFormat selectBestSpecialList(@RequestParam(value="cpage", required=true) String cpage,@RequestParam(value="pageSize", required=true) String pageSize){
+		 if(Validators.isNumeric(cpage)&&Validators.isNumeric(pageSize)){
+			 int beginIndex = (Integer.parseInt(cpage)-1)*Integer.parseInt(pageSize);
+			 int size = Integer.parseInt(pageSize);
+			  List<TraOfficialspecial> bestOfficialSpecial = officialspecialService.findBestSpecialList(beginIndex,size);
 		        return bestOfficialSpecial!=null&&bestOfficialSpecial.size()>0?new JsonFormat("000000","查询成功",bestOfficialSpecial):new JsonFormat("000001","无数据",null);
 		 }else{
 			 return new JsonFormat("000002","参数错误",null);
@@ -76,8 +77,8 @@ public class OfficialspecialController {
 		 @RequestMapping(value = "/officialInfo", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
 		 @ResponseBody
 		 public JsonFormat selectOfficialInfo(@RequestParam(value="zcId", required=true) String zcId){
-			List<TraOfficialspecial> OfficialSpecials = officialspecialService.findOfficialSpecialidById(zcId);
-		    return OfficialSpecials!=null&&OfficialSpecials.size()>0?new JsonFormat("000000","查询成功",OfficialSpecials):new JsonFormat("000001","无数据",null);
+			 TraOfficialspecial OfficialSpecials =  officialspecialService.findOfficialSpecialidById(zcId);
+		    return OfficialSpecials!=null?new JsonFormat("000000","查询成功",OfficialSpecials):new JsonFormat("000001","无数据",null);
 			 
 		      
 		   }

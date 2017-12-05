@@ -9,4 +9,5 @@ import com.cpf.beans.system.SysNews;
 public interface SysNewsMapper {
 
 	SysNews selectMessageById(@Param("newsId") String newsId);
+	int saveNews(SysNews news);
 }

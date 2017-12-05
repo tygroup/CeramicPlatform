@@ -16,9 +16,9 @@ public class PersonalSpecialidServiceImpl implements PersonalSpecialidService {
 	private TraPersonalspecialMapper personalspecialMapper;
 
 	@Override
-	public List<TraPersonalspecial> selectBestPersonalSpecialid(int count) {
+	public List<TraPersonalspecial> selectBestPersonalSpecialid(int beginIndex,int size) {
 		// TODO Auto-generated method stub
-		return personalspecialMapper.selectBestPersonalSpecialid(count);
+		return personalspecialMapper.selectBestPersonalSpecialid(beginIndex,size);
 	}
 
 	@Override
@@ -35,9 +35,22 @@ public class PersonalSpecialidServiceImpl implements PersonalSpecialidService {
 	}
 
 	@Override
-	public List<TraPersonalspecial> selectPersonalById(String zcId) {
+	public TraPersonalspecial selectPersonalById(String zcId) {
 		// TODO Auto-generated method stub
 		return personalspecialMapper.selectPersonalById(zcId);
+	}
+
+	@Override
+	public List<TraPersonalspecial> selectPersonalListByUserid(String userInfoId,
+			int beginIndex, int size) {
+		// TODO Auto-generated method stub
+		return personalspecialMapper.selectPersonalListByUserid(userInfoId, beginIndex, size);
+	}
+
+	@Override
+	public int selectPersonalListByUseridCount(String userInfoId) {
+		// TODO Auto-generated method stub
+		return personalspecialMapper.selectPersonalListByUseridCount(userInfoId);
 	}
 	
 }

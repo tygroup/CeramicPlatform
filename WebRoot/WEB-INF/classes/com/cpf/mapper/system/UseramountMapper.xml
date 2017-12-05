@@ -2,8 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cpf.mapper.system.UseramountMapper" >
    
-  <insert id="insert" parameterType="com.cpf.beans.system.Useramount" >
+  <insert id="save" parameterType="Useramount" >
     insert into useramount
+      	<selectKey resultType="java.lang.String"  order="BEFORE" keyProperty="amountid">  
+	 	 	  SELECT REPLACE(UUID(), '-', '')   
+	    </selectKey> 
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="amountid != null" >
         amountid,

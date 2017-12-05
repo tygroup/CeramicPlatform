@@ -32,7 +32,7 @@
 		LEFT JOIN tra_trading t on o.Specialid = t.zcid and t.isAudit ='0'
 		 where o.is_best = '0' and o.Previewbegintimetime &lt;= now() 
 		group by Specialid,Auctionbegintime,Auctionendtime,Specialname
-		order by o.Previewbegintimetime LIMIT #{count}
+		order by o.Previewbegintimetime LIMIT #{beginIndex},#{size}
   </select>
   
   
@@ -140,10 +140,58 @@
   </resultMap>
   
   
-  <select id="selectPersonalById" resultMap="firstResultMap">
+  <select id="selectPersonalById_unuse" resultMap="firstResultMap">
    select o.*,p.*,f.*,t.Startingprice startingprice from tra_personalspecial o LEFT JOIN tra_trading t on o.Specialid = t.zcid LEFT JOIN tra_product p on t.productid = p.productid
 	LEFT JOIN tra_product_files f on p.productid = f.productid
 	where o.Specialid = #{zcId}
   </select>
   
+  
+      <resultMap id="secondResultMap" type="com.cpf.beans.transaction.TraPersonalspecial" >
+    <!--
+      		查询个人专场详情
+    -->
+    <id column="Specialid" property="specialid" jdbcType="VARCHAR" />
+    <result column="Specialname" property="specialname" jdbcType="VARCHAR" />
+    <result column="Specialcover" property="specialcover" jdbcType="VARCHAR" />
+    <result column="Previewbegintimetime" property="previewbegintimetime" jdbcType="DATE" />
+    <result column="Previewendtime" property="previewendtime" jdbcType="DATE" />
+    <result column="Auctionbegintime" property="auctionbegintime" jdbcType="DATE" />
+    <result column="Auctionendtime" property="auctionendtime" jdbcType="DATE" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="isAudit" property="isaudit" jdbcType="VARCHAR" />
+    <result column="is_best" property="isBest" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <!-- 查询个人专场详情 -->
+    <select id="selectPersonalById" resultType="com.cpf.beans.transaction.TraPersonalspecial">
+   			select * from tra_personalspecial t where t.Specialid=#{zcId}
+  </select>
+  
+  
+  <!--根据商铺的id 查询个人专场列表 -->
+  <select id="selectPersonalListByUserid" resultMap="BaseResultMap">
+  	select p.Specialid ,p.Specialname,p.Previewbegintimetime,p.Previewendtime,p.Auctionbegintime,p.Auctionendtime,p.Specialcover,count(t.tradingid) ppc,count(c.collectId) sc,count(DISTINCT(b.userid)) rs from tra_personalspecial p LEFT JOIN tra_trading t on p.Specialid = t.zcid
+	LEFT JOIN sys_collect c on p.Specialid = c.productId and c.collectType='2'
+	LEFT JOIN tra_Bidrecord b on b.Specialid = p.Specialid
+	LEFT JOIN userinfo f on p.userid = f.userid
+	where p.isAudit = '0' and f.userinfoid = #{userInfoId}
+	group by Specialid,Specialname,Previewbegintimetime,Previewendtime,Auctionbegintime,Auctionendtime,Specialcover
+	
+	order by p.Previewbegintimetime desc, p.Auctionbegintime desc
+	LIMIT #{beginIndex},#{size}
+  </select>
+  <!--根据商铺的id 查询个人专场列表总条数 -->
+    <select id="selectPersonalListByUseridCount" resultType="java.lang.Integer">
+  	select count(*) from (select p.Specialid ,p.Specialname,p.Previewbegintimetime,p.Previewendtime,p.Auctionbegintime,p.Auctionendtime,p.Specialcover,count(t.tradingid) ppc,count(c.collectId) sc,count(DISTINCT(b.userid)) rs from tra_personalspecial p LEFT JOIN tra_trading t on p.Specialid = t.zcid
+	LEFT JOIN sys_collect c on p.Specialid = c.productId and c.collectType='2'
+	LEFT JOIN tra_Bidrecord b on b.Specialid = p.Specialid
+	LEFT JOIN userinfo f on p.userid = f.userid
+	where p.isAudit = '0' and f.userinfoid = #{userInfoId}
+	group by Specialid,Specialname,Previewbegintimetime,Previewendtime,Auctionbegintime,Auctionendtime,Specialcover
+	
+	order by p.Previewbegintimetime desc, p.Auctionbegintime desc
+	 ) tt 
+  </select>
 </mapper>

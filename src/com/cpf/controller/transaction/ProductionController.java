@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cpf.beans.transaction.SpecialBean;
 import com.cpf.beans.transaction.TraBidrecord;
 import com.cpf.beans.transaction.TraProduct;
+import com.cpf.beans.transaction.TraProductFiles;
 import com.cpf.beans.transaction.TraTrading;
 import com.cpf.service.transaction.ProductionService;
 import com.cpf.util.JsonFormat;
@@ -106,11 +107,12 @@ public class ProductionController {
      */
     @RequestMapping(value = "/getHotSpecialid", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public JsonFormat selectHotSpecialid(@RequestParam(value="count", required=true) String count){
+    public JsonFormat selectHotSpecialid(@RequestParam(value="cpage", required=true) String cpage,@RequestParam(value="pageSize", required=true) String pageSize){
     	
-    	if(Validators.isNumeric(count)){
-    		int count1 = Integer.parseInt(count);
-    		List<SpecialBean> hotSpecialid = productionService.selectHotSpecialid(count1);
+    	if(Validators.isNumeric(cpage)&&Validators.isNumeric(pageSize)){
+    		 int beginIndex = (Integer.parseInt(cpage)-1)*Integer.parseInt(pageSize);
+             int size = Integer.parseInt(pageSize);
+    		List<SpecialBean> hotSpecialid = productionService.selectHotSpecialid(beginIndex,size);
     		return hotSpecialid!=null&&hotSpecialid.size()>0?new JsonFormat("000000","查询成功",hotSpecialid):new JsonFormat("000001","无数据",null);
     	}else{
     		return new JsonFormat("000002","参数错误",null);	
@@ -123,11 +125,12 @@ public class ProductionController {
      */
     @RequestMapping(value = "/getHotBarters", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public JsonFormat selectHotBarters(@RequestParam(value="count", required=true) String count){
+    public JsonFormat selectHotBarters(@RequestParam(value="cpage", required=true) String cpage,@RequestParam(value="pageSize", required=true) String pageSize){
     	
-    	if(Validators.isNumeric(count)){
-    		int count1 = Integer.parseInt(count);
-    		List<TraProduct> hotSpecialid = productionService.selectHotBarters(count1);
+    	if(Validators.isNumeric(cpage)&&Validators.isNumeric(pageSize)){
+   		 int beginIndex = (Integer.parseInt(cpage)-1)*Integer.parseInt(pageSize);
+            int size = Integer.parseInt(pageSize);
+    		List<TraProduct> hotSpecialid = productionService.selectHotBarters(beginIndex,size);
     		return hotSpecialid!=null&&hotSpecialid.size()>0?new JsonFormat("000000","查询成功",hotSpecialid):new JsonFormat("000001","无数据",null);
     	}else{
     		return new JsonFormat("000002","参数错误",null);	
@@ -167,6 +170,55 @@ public class ProductionController {
     	List<TraBidrecord> bidrecords =productionService.selectBidRecordByProductId(productId, beginIndex, size);
     	int totalCount = productionService.selectBidRecordByProductIdCount(productId);
     	return bidrecords!=null&&bidrecords.size()>0?new JsonFormat("000000", "查询成功",totalCount, bidrecords):new JsonFormat("000001", "无数据",0, null);
+        }else{
+        	return new JsonFormat("000002", "参数错误", null);
+        }
+    }
+    
+    /**
+     * 根据zcid查询专场中的物品
+     */
+    
+    @RequestMapping(value = "/productionsOfZc", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public JsonFormat selectproductionsOfZc(@RequestParam(value="zcId", required=true) String zcId,
+    		@RequestParam(value="cpage", required=true) String cpage,
+    		@RequestParam(value="pageSize", required=true) String pageSize){
+        	if(Validators.isNumeric(cpage)&&Validators.isNumeric(pageSize)){
+                int beginIndex = (Integer.parseInt(cpage)-1)*Integer.parseInt(pageSize);
+                int size = Integer.parseInt(pageSize);
+    	List<TraTrading> productionsOfZc =productionService.findProductionByZcId(zcId, beginIndex, size);
+    	int totalCount = productionService.findProductionByZcIdCount(zcId);
+    	return productionsOfZc!=null&&productionsOfZc.size()>0?new JsonFormat("000000", "查询成功",totalCount, productionsOfZc):new JsonFormat("000001", "无数据",0, null);
+        }else{
+        	return new JsonFormat("000002", "参数错误", null);
+        }
+    }
+    /**
+     * 根据productId查询pics
+     * @param productId
+     * @return
+     */
+    @RequestMapping(value = "/pics", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public JsonFormat selectPicsByProductId(@RequestParam(value="productId", required=true) String productId){
+    	List<TraProductFiles> pics =productionService.selectPicByProductionId(productId);
+    	return pics!=null&&pics.size()>0?new JsonFormat("000000", "查询成功", pics):new JsonFormat("000001", "无数据", null);
+    	 
+    }
+    
+    
+    @RequestMapping(value = "/bartersOfShop", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public JsonFormat selectBartersOfShop(@RequestParam(value="userInfoId", required=true) String userInfoId,
+    		@RequestParam(value="cpage", required=true) String cpage,
+    		@RequestParam(value="pageSize", required=true) String pageSize){
+        	if(Validators.isNumeric(cpage)&&Validators.isNumeric(pageSize)){
+                int beginIndex = (Integer.parseInt(cpage)-1)*Integer.parseInt(pageSize);
+                int size = Integer.parseInt(pageSize);
+    	List<TraTrading> productionsOfZc =productionService.selectBartersByUserInfoId(userInfoId, beginIndex, size);
+    	int totalCount = productionService.selectBartersByUserInfoIdCount(userInfoId);
+    	return productionsOfZc!=null&&productionsOfZc.size()>0?new JsonFormat("000000", "查询成功",totalCount, productionsOfZc):new JsonFormat("000001", "无数据",0, null);
         }else{
         	return new JsonFormat("000002", "参数错误", null);
         }

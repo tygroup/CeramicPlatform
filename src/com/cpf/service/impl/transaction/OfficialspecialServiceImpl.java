@@ -16,9 +16,9 @@ public class OfficialspecialServiceImpl implements OfficialspecialService {
 	private TraOfficialspecialMapper officialspecialMapper;
 
 	@Override
-	public List<TraOfficialspecial> findBestSpecialList(int count) {
+	public List<TraOfficialspecial> findBestSpecialList(int beginIndex,int size) {
 		// TODO Auto-generated method stub
-		return officialspecialMapper.findBestSpecialList(count);
+		return officialspecialMapper.findBestSpecialList(beginIndex,size);
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class OfficialspecialServiceImpl implements OfficialspecialService {
 	}
 
 	@Override
-	public List<TraOfficialspecial> findOfficialSpecialidById(String zcId) {
+	public TraOfficialspecial findOfficialSpecialidById(String zcId) {
 		// TODO Auto-generated method stub
 		return officialspecialMapper.findOfficialSpecialidById(zcId);
 	}

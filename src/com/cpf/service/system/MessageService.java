@@ -14,4 +14,5 @@ public interface MessageService {
 	
 	public SysNews selectMessageById(String newsId);
 	public int updateMessageStatus(String viewId);
+	public int saveNews(SysNews news);
 }

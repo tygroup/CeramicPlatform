@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import com.cpf.beans.transaction.SpecialBean;
 import com.cpf.beans.transaction.TraBidrecord;
 import com.cpf.beans.transaction.TraProduct;
+import com.cpf.beans.transaction.TraProductFiles;
 import com.cpf.beans.transaction.TraTrading;
 import com.cpf.mapper.transaction.TraBidrecordMapper;
+import com.cpf.mapper.transaction.TraProductFilesMapper;
 import com.cpf.mapper.transaction.TraProductMapper;
 import com.cpf.mapper.transaction.TraTradingMapper;
 import com.cpf.service.transaction.ProductionService;
@@ -25,6 +27,8 @@ public class ProductionServiceImpl implements ProductionService {
 	
 	@Autowired
 	private TraBidrecordMapper bidRecordMapper;
+	@Autowired
+	private TraProductFilesMapper productFileMapper;
 	
 	@Override
 	public List<TraProduct> selectBartersBySearch(String productName,String cateid, String ismyself,String era, String sort,
@@ -55,15 +59,15 @@ public class ProductionServiceImpl implements ProductionService {
 	}
 
 	@Override
-	public List<SpecialBean> selectHotSpecialid(int count) {
+	public List<SpecialBean> selectHotSpecialid(int beginIndex,int size) {
 		// TODO Auto-generated method stub
-		return productMapper.selectHotSpecialid(count);
+		return productMapper.selectHotSpecialid(beginIndex,size);
 	}
 
 	@Override
-	public List<TraProduct> selectHotBarters(int count) {
+	public List<TraProduct> selectHotBarters(int beginIndex,int size) {
 		// TODO Auto-generated method stub
-		return productMapper.selectHotBarters(count);
+		return productMapper.selectHotBarters(beginIndex,size);
 	}
 
 	@Override
@@ -82,6 +86,38 @@ public class ProductionServiceImpl implements ProductionService {
 	public int selectBidRecordByProductIdCount(String productId) {
 		// TODO Auto-generated method stub
 		return bidRecordMapper.selectBidRecordByProductIdCount(productId);
+	}
+
+	@Override
+	public List<TraTrading> findProductionByZcId(String zcId, int beginIndex,
+			int size) {
+		// TODO Auto-generated method stub
+		return tradingMapper.findProductionByZcId(zcId, beginIndex, size);
+	}
+
+	@Override
+	public int findProductionByZcIdCount(String zcId) {
+		// TODO Auto-generated method stub
+		return tradingMapper.findProductionByZcIdCount(zcId);
+	}
+
+	@Override
+	public List<TraProductFiles> selectPicByProductionId(String productId) {
+		// TODO Auto-generated method stub
+		return productFileMapper.selectPicByProductionId(productId);
+	}
+
+	@Override
+	public List<TraTrading> selectBartersByUserInfoId(String userInfoId,
+			int beginIndex, int size) {
+		// TODO Auto-generated method stub
+		return tradingMapper.selectBartersByUserInfoId(userInfoId, beginIndex, size);
+	}
+
+	@Override
+	public int selectBartersByUserInfoIdCount(String userInfoId) {
+		// TODO Auto-generated method stub
+		return tradingMapper.selectBartersByUserInfoIdCount(userInfoId);
 	} 
 	
 	
