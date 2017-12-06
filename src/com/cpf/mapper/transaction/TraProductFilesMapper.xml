@@ -47,7 +47,6 @@
       </if>
     </trim>
   </insert>
-  
   <!-- 根据品种id查询品种的展示图片 -->
   <select id="selectPicByProductionId" resultMap="BaseResultMap">
   	select * from tra_product_files t where t.productid=#{productId}

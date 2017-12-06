@@ -163,8 +163,7 @@
     <result column="isAudit" property="isaudit" jdbcType="VARCHAR" />
     <result column="is_best" property="isBest" jdbcType="VARCHAR" />
   </resultMap>
-  
-
+ 
    <!-- 查询个人专场详情 -->
     <select id="selectPersonalById" resultType="com.cpf.beans.transaction.TraPersonalspecial">
    			select * from tra_personalspecial t where t.Specialid=#{zcId}
@@ -196,9 +195,7 @@
 	 ) tt 
   </select>
 
-    <select id="selectPersonalById" resultType="com.cpf.beans.transaction.TraPersonalspecial">
-   			select * from tra_personalspecial t where t.Specialid='1'
-  </select>
+   
   
 
 </mapper>
