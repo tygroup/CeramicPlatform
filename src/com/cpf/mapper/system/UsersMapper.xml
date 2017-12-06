@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cpf.mapper.system.UsersMapper" >
+ <cache eviction="LRU" type="com.cpf.resource.redisCache.RedisCache"/>
+  <select id="login" resultType="Users"  parameterType="java.lang.String" >
+    select *    from users   where phonenum = #{phonenum,jdbcType=VARCHAR} and password=#{password,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findUserMsg" resultType="Users" parameterType="java.lang.String" >
+    select *    from users u left join Useramount a on u.userid=a.userid  where a.userid = #{userid,jdbcType=VARCHAR} 
+  </select>
+  
+  <insert id="regester" parameterType="Users"   >
+    insert into users
+      <selectKey resultType="java.lang.String"  order="BEFORE" keyProperty="userid">  
+	 	 	  SELECT REPLACE(UUID(), '-', '')   
+	    </selectKey> 
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="phonenum != null" >
+        phonenum,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      
+       isonline,
+     <!--  createtime,
+       lastloginintime, -->
+     
+      <if test="ip != null" >
+        ip,
+      </if>
+        state,
+        usertype,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenum != null" >
+        #{phonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+        0,
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+        0,
+        1,
+    </trim>
+  </insert>
+  <update id="update" parameterType="Users" >
+    update users
+    <set >
+      <if test="phonenum != null" >
+        phonenum = #{phonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="isonline != null" >
+        isonline = #{isonline,jdbcType=VARCHAR},
+      </if>
+      <if test="lastloginintime != null" >
+        lastloginintime = #{lastloginintime,jdbcType=DATE},
+      </if>
+      <if test="ip != null" >
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where userid = #{userid,jdbcType=VARCHAR}
+  </update>
+</mapper>

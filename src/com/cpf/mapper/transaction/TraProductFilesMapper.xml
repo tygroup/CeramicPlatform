@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cpf.mapper.transaction.TraProductFilesMapper" >
+  <resultMap id="BaseResultMap" type="com.cpf.beans.transaction.TraProductFiles" >
+    
+    <id column="filesid" property="filesid" jdbcType="VARCHAR" />
+    <result column="productid" property="productid" jdbcType="VARCHAR" />
+    <result column="files" property="files" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    
+    filesid, productid, files
+  </sql>
+   
+  <delete id="deleteFilesByProductid" parameterType="java.lang.String" >
+    
+    delete from tra_product_files
+    where productid = #{productid,jdbcType=VARCHAR}
+  </delete>
+   
+  <insert id="save" parameterType="com.cpf.beans.transaction.TraProductFiles" >
+    
+    insert into tra_product_files
+    	<selectKey resultType="java.lang.String"  order="BEFORE" keyProperty="filesid">  
+	 	 	  SELECT REPLACE(UUID(), '-', '')   
+	    </selectKey>
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="filesid != null" >
+        filesid,
+      </if>
+      <if test="productid != null" >
+        productid,
+      </if>
+      <if test="files != null" >
+        files,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="filesid != null" >
+        #{filesid,jdbcType=VARCHAR},
+      </if>
+      <if test="productid != null" >
+        #{productid,jdbcType=VARCHAR},
+      </if>
+      <if test="files != null" >
+        #{files,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 根据品种id查询品种的展示图片 -->
+  <select id="selectPicByProductionId" resultMap="BaseResultMap">
+  	select * from tra_product_files t where t.productid=#{productId}
+  </select>
+  
+</mapper>
