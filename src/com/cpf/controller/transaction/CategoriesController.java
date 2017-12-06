@@ -34,8 +34,12 @@ public class CategoriesController {
     @RequestMapping(value = "/categories", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonFormat selectUserById(){
+    	try{
         List<TraCategories> categories = categoriesService.findCategories();
         return categories!=null&&categories.size()>0?new JsonFormat("000000","查询成功",categories):new JsonFormat("000001","无数据",categories);
+    	}catch(Exception de){
+    		return new JsonFormat("000003", "服务异常，请重试", null);
+    	}
     }
     
     

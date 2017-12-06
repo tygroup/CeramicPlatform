@@ -49,9 +49,14 @@ public class MessageController {
     	if(Validators.isNumeric(cpage)&&Validators.isNumeric(pageSize)){
             int beginIndex = (Integer.parseInt(cpage)-1)*Integer.parseInt(pageSize);
             int endIndex = Integer.parseInt(pageSize);
-    		List<RelNewsView> newsList = messageService.selectUserMessage(userId, newsType, beginIndex, endIndex);
-    		int totalCount = messageService.selectUserMessageCount(userId, newsType);
-    		return newsList!=null&&newsList.size()>0?new JsonFormat("000000","查询成功",totalCount,newsList):new JsonFormat("000001","无数据",0,null);
+            try{
+            	List<RelNewsView> newsList = messageService.selectUserMessage(userId, newsType, beginIndex, endIndex);
+        		int totalCount = messageService.selectUserMessageCount(userId, newsType);
+        		return newsList!=null&&newsList.size()>0?new JsonFormat("000000","查询成功",totalCount,newsList):new JsonFormat("000001","无数据",0,null);
+            }catch(Exception de){
+            	return new JsonFormat("000003","服务错误，请重试",null);
+            }
+    		
     	}else{
     		return new JsonFormat("000002","参数错误",null);	
     	}
@@ -67,8 +72,12 @@ public class MessageController {
     public JsonFormat selectUnreadMessagesCount(@RequestParam(value="userId", required=true) String userId ){
     	
     	if(!"".equals(userId)&&userId!=null){
-    		int count = messageService.selectUnreadMessageCount(userId);
-    		return  new JsonFormat("000000","查询成功",count);
+    		try{
+	    		int count = messageService.selectUnreadMessageCount(userId);
+	    		return  new JsonFormat("000000","查询成功",count);
+    		}catch(Exception de){
+            	return new JsonFormat("000003","服务错误，请重试",null);
+            }
     	}else{
     		return new JsonFormat("000002","参数错误",null);	
     	}
@@ -83,8 +92,12 @@ public class MessageController {
     @ResponseBody
     public JsonFormat selectMessageByid(@RequestParam(value="newsId", required=true) String newsId ){
     	if(!"".equals(newsId)&&newsId!=null){
+    		try{
     		SysNews news = messageService.selectMessageById(newsId);
     		return news!=null?new JsonFormat("000000","查询成功",news):new JsonFormat("000001","无数据",null);
+    		}catch(Exception de){
+            	return new JsonFormat("000003","服务错误，请重试",null);
+            }
     	}else{
     		return new JsonFormat("000002","参数错误",null);	
     	}
@@ -103,8 +116,12 @@ public class MessageController {
     		 viewId = map.get("viewId");
          }
     	if(!"".equals(viewId)&&viewId!=null){
+    		try{
     		int count = messageService.updateMessageStatus(viewId);
     		return count>0?new JsonFormat("000000","状态修改成功",null):new JsonFormat("000003","状态修改失败",null);
+    		}catch(Exception de){
+            	return new JsonFormat("000003","服务错误，请重试",null);
+            }
     	}else{
     		return new JsonFormat("000002","参数错误",null);	
     	}

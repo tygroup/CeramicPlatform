@@ -56,8 +56,12 @@ public class SysCollectController {
     @ResponseBody
     public JsonFormat findCollectsByUserId(@RequestBody SysCollect collect){
     	collect.setCollectid(UUIDGenerator.getUUID());
+    	try{
     	String collectId = service.saveCollect(collect);
     	return !"".equals(collectId)&&collectId!=null?new JsonFormat("000000", "保存成功", collectId):new JsonFormat("000000", "保存成功", null);
+    	}catch(Exception de){
+    		return new JsonFormat("000003", "服务异常，请重试", null);
+    	}
     }
     
     /**
@@ -70,8 +74,12 @@ public class SysCollectController {
     @RequestMapping(value = "/isCollected", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonFormat selectCollectedInfo(@RequestParam(value="type", required=true) String type,@RequestParam(value="userId", required=true) String userId,@RequestParam(value="id", required=true) String id){
+    	try{
     	List<SysCollect>  collect = service.selectCollectInfo(id, type, userId);
 		return collect!=null&&collect.size()>0?new JsonFormat("000000","查询成功",collect.get(0)):new JsonFormat("000001","无数据",0,null);
+    	}catch(Exception de){
+    		return new JsonFormat("000003", "服务异常，请重试", null);
+    	}
     }
     
     /**
@@ -84,8 +92,12 @@ public class SysCollectController {
     @RequestMapping(value = "/colectCount", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonFormat selectColectCount(@RequestParam(value="type", required=true) String type,@RequestParam(value="id", required=true) String id){
+    	try{
     	int count = service.selectCollectCount(id,type);
 		return  new JsonFormat("000000","查询成功",count) ;
+    	}catch(Exception de){
+    		return new JsonFormat("000003", "服务异常，请重试",null);
+    	}
     }
     
     /**
@@ -97,7 +109,11 @@ public class SysCollectController {
     @RequestMapping(value = "/cancleCollect", method= RequestMethod.DELETE, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonFormat cancleCollect(@RequestParam(value="collectid", required=true) String collectid){
+    	try{
     	int count = service.deleteUserCollectById(collectid);
 		return  count>0?new JsonFormat("000000","取消收藏成功",null):new JsonFormat("000001","取消收藏失败",null) ;
+    	}catch(Exception de){
+    		return new JsonFormat("000003", "服务异常，请重试", null);
+    	}
     }
 }

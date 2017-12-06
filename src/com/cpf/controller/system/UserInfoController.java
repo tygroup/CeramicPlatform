@@ -42,8 +42,12 @@ public class UserInfoController {
 		 if(Validators.isNumeric(cpage)&&Validators.isNumeric(pageSize)){
 			 int beginIndex = (Integer.parseInt(cpage)-1)*Integer.parseInt(pageSize);
 			 int size = Integer.parseInt(pageSize);
-			  List<Userinfo> bestShops = userInfoService.findBestShopList(beginIndex,size);
-		        return bestShops!=null&&bestShops.size()>0?new JsonFormat("000000","查询成功",bestShops):new JsonFormat("000001","无数据",null);
+			 try{
+			 List<Userinfo> bestShops = userInfoService.findBestShopList(beginIndex,size);
+		     return bestShops!=null&&bestShops.size()>0?new JsonFormat("000000","查询成功",bestShops):new JsonFormat("000001","无数据",null);
+			 }catch(Exception de){
+		    		return new JsonFormat("000003", "服务异常，请重试", null);
+		    	}
 		 }else{
 			 return new JsonFormat("000002","参数错误",null);
 		 }
@@ -59,9 +63,12 @@ public class UserInfoController {
 	 @RequestMapping(value = "/getShopInfo", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
 	 @ResponseBody
 	 public JsonFormat selectShopInfoById(@RequestParam(value="userId", required=true) String userId){
+		 try{
 		 	List<Userinfo> shopInfo = userInfoService.findShopInfoById(userId);
 		 	return shopInfo!=null&&shopInfo.size()>0?new JsonFormat("000000","查询成功",shopInfo):new JsonFormat("000001","查询失败",null);
-	      
+		 }catch(Exception de){
+	    		return new JsonFormat("000003", "服务异常，请重试", null);
+	    	}
 	   }
 	 
 	 /**
@@ -77,9 +84,13 @@ public class UserInfoController {
 		 if(Validators.isNumeric(cpage)&&Validators.isNumeric(pageSize)){
 			 int beginIndex = (Integer.parseInt(cpage)-1)*Integer.parseInt(pageSize);
 			 int size = Integer.parseInt(pageSize);
+			 try{
 			 List<Userinfo> shops = userInfoService.selectShopList(sort, beginIndex, size);
 			 int totalCount = userInfoService.selectShopListCount(sort);
-		        return shops!=null&&shops.size()>0?new JsonFormat("000000","查询成功",shops):new JsonFormat("000001","无数据",null);
+		      return shops!=null&&shops.size()>0?new JsonFormat("000000","查询成功",shops):new JsonFormat("000001","无数据",null);
+			 }catch(Exception de){
+		    		return new JsonFormat("000003", "服务异常，请重试", null);
+		    	}
 		 }else{
 			 return new JsonFormat("000002","参数错误",null);
 		 }

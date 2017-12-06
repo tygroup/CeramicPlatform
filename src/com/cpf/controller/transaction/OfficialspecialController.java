@@ -40,8 +40,12 @@ public class OfficialspecialController {
 		 if(Validators.isNumeric(cpage)&&Validators.isNumeric(pageSize)){
 			 int beginIndex = (Integer.parseInt(cpage)-1)*Integer.parseInt(pageSize);
 			 int size = Integer.parseInt(pageSize);
+			 try{
 			  List<TraOfficialspecial> bestOfficialSpecial = officialspecialService.findBestSpecialList(beginIndex,size);
 		        return bestOfficialSpecial!=null&&bestOfficialSpecial.size()>0?new JsonFormat("000000","查询成功",bestOfficialSpecial):new JsonFormat("000001","无数据",null);
+			 }catch(Exception de){
+		    		return new JsonFormat("000003", "服务异常，请重试", null);
+		    	}
 		 }else{
 			 return new JsonFormat("000002","参数错误",null);
 		 }

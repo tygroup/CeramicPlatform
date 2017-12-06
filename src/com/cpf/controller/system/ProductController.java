@@ -74,8 +74,8 @@ public class ProductController {
             map.put("beginIndex", beginIndex);
             map.put("endIndex", endIndex);
             List<TraProduct> OfficialSpecials = service.selectProductsByUserId(map);
-			  int totalCount = service.findByUseridCount(map);
-		      return OfficialSpecials!=null&&OfficialSpecials.size()>0?new JsonFormat("000000","查询成功",totalCount,OfficialSpecials):new JsonFormat("000001","无数据",0,null);
+			int totalCount = service.findByUseridCount(map);
+		    return OfficialSpecials!=null&&OfficialSpecials.size()>0?new JsonFormat("000000","查询成功",totalCount,OfficialSpecials):new JsonFormat("000001","无数据",0,null);
 		 }else{
 			 return new JsonFormat("000002","参数错误",null);
 		 }
