@@ -49,7 +49,6 @@ public class ProductController {
     	
     	TraProduct product = (TraProduct) jsonObject.toJavaObject(TraProduct.class);
     	
-    	String pics = product.getQtpics();
     	if(product!=null && product.getProductid()!=null && !product.getProductid().equals("")){
     		
     		product= service.update(product);
@@ -105,17 +104,6 @@ public class ProductController {
    	 */
     @RequestMapping(value = "/findProductsListById", method= RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public JsonFormat findByUserId(@RequestParam(value="toUsed", required=false) String toUsed,@RequestParam(value="userId", required=false) String userId){
-       	Map<String ,Object> map = new HashMap<String, Object>();
-    	  map.put("toUsed", toUsed);
-    	  map.put("userId", userId);
-    	  
-       List<TraProduct> list = 	service.selectProductsByUserId(map);
-    	   
-    	   return list!=null?new JsonFormat("000000","查询成功",list):new JsonFormat("000001","无数据",list);
-       }
-       
- 
     public JsonFormat findByUserId(@RequestParam(value="toUsed", required=false) String toUsed,@RequestParam(value="userId", required=false) String userId,@RequestParam(value="cpage", required=true) String cpage,
     		@RequestParam(value="pageSize", required=true) String pageSize,@RequestParam(value="isAudit", required=true) String isAudit,@RequestParam(value="isPm", required=true)String isPm){
     	if(Validators.isNumeric(cpage)&&Validators.isNumeric(pageSize)){

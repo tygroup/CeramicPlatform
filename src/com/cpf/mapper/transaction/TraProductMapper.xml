@@ -478,18 +478,19 @@
   </update>
   
 
-  <select id="findById" parameterType="java.lang.String">
+  <select id="findById" parameterType="java.lang.String" resultType="TraProduct">
  	select * from  Tra_Product  where productid = #{productid,jdbcType=VARCHAR}
   </select>
   <!--用户查询自己的商品 -->
   <select id="selectProductsByUserId" resultType="TraProduct">
-	   	select * from tra_product  tt  	where 1=1  
-	   	<if test="userId != null" >
-	      userId =  #{userId,jdbcType=VARCHAR},
+	   	select * from tra_product  tt  	where state=0  
+	   	<if test="map.userId != null" >
+	     and  userId =  #{map.userId,jdbcType=VARCHAR}
 	    </if> 
 	     
-	 	LIMIT #{beginIndex},#{endIndex}
-</select>
+	 	LIMIT #{map.beginIndex},#{map.endIndex}
+  </select>
+
   
   
    <select id="findByUseridCount" resultType="java.lang.Integer">
