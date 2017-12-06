@@ -8,9 +8,27 @@
                         http://www.springframework.org/schema/context  
                         http://www.springframework.org/schema/context/spring-context-3.2.xsd http://www.springframework.org/schema/mvc 
                         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
-		<mvc:annotation-driven />
+		<mvc:annotation-driven>
+		  <mvc:message-converters> 
+		      <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"> 
+		        <property name="objectMapper"> 
+		          <bean class="com.fasterxml.jackson.databind.ObjectMapper"> 
+		            <property name="dateFormat"> 
+		              <bean class="java.text.SimpleDateFormat"> 
+		                <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" /> 
+		              </bean> 
+		            </property> 
+		          </bean> 
+		        </property> 
+		      </bean> 
+    	</mvc:message-converters> 
+		
+		</mvc:annotation-driven>
 		<mvc:default-servlet-handler /> 
       <context:component-scan base-package="com.cpf.controller"/>
+      	
+	 
+      
 <!-- <mvc:resources mapping="/static/**" location="/WEB-INF/static/" />
 	<mvc:resources mapping="/view/**" location="/WEB-INF/view/" />
 	
@@ -36,26 +54,7 @@
 			</list>
 		</property>
 	</bean>
-	
-	  <!--设置全局的json日期格式-->
-    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
-        <property name="messageConverters">
-            <list>
-                <bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter" />
-                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" >
-                    <property name="objectMapper">
-                        <bean class="com.fasterxml.jackson.databind.ObjectMapper">
-                            <property name="dateFormat">
-                                <bean class="java.text.SimpleDateFormat">
-                                    <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"/>
-                                </bean>
-                            </property>
-                        </bean>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
+
     
     <mvc:cors>
         <mvc:mapping path="/**" allowed-origins="*" allow-credentials="true" max-age="1800" allowed-methods="GET,POST,OPTIONS,PUT,DELETE"/>
